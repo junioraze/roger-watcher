@@ -49,7 +49,7 @@ startButton.addEventListener("click", () => {
       validateObject(window.file, obj);
     }
     // dlObj is an array with each event.
-    let dlObj = [{ event: "teste", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }, { event: "update", usuario: { statusLogin: "visitante" } }, { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } },{event:"checkout",ecommerce:{checkout:{etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{idDepartamento: "111",idLojista: "1111",idMarca: "1111",idProduto: "1111",nome: "TesteMonstro",nomeDepartamento: "1111111",nomeMarca: "1111111",preco: 111.1,quantidade: 0,sku: "1111111111",tipoVendedor: "marketplace1111"},{idDepartamento: "836",idLojista: "11578",idMarca: "3615",idProduto: "9984900",nome: "pneu aro 13 goodyear 17570 direction touring sl 82t",nomeDepartamento: "automotivo",nomeMarca: "goodyear",preco: 197.9,quantidade: 1,sku: "13566580",tipoVendedor: "marketplace"}]}}}]
+    let dlObj = [{ event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }, { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } }, { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } }, { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } }]
     // Events are sent to the dataLayer.
     dlObj.forEach((event) => {
       window[dataLayerName.value].push(event);
@@ -71,7 +71,8 @@ stopButton.addEventListener("click", () => {
   validateObject(window.file, {});
   stopButton.disabled = true;
 
-  /*window.result.forEach((message) =>*/ for(let i=0; i < window.bowserjr.result.length; i++){
+  /*window.result.forEach((message) =>*/
+  for (let i = 0; i < window.bowserjr.result.length; i++) {
     let message = window.bowserjr.result[i];
     let messageWithoutObject = window.bowserjr.resultWithoutObject[i];
 
@@ -79,7 +80,6 @@ stopButton.addEventListener("click", () => {
     paragraphy.setAttribute("class", "content")
 
     let divTrack = document.createElement("div");
-    divTrack.setAttribute("class", "track");
 
     let divQsWrapper = document.createElement("div");
     divQsWrapper.setAttribute("class", "qsWrapper");
@@ -101,6 +101,7 @@ stopButton.addEventListener("click", () => {
 
       let labelOk = document.createElement("hr");
       labelOk.setAttribute("class", "label ok");
+      divTrack.setAttribute("class", "track pageview");
       divLogs.appendChild(divTrack);
       divTrack.appendChild(labelOk);
       divTrack.appendChild(sectionSucessfuly);
@@ -108,10 +109,11 @@ stopButton.addEventListener("click", () => {
       sectionSucessfuly.appendChild(divQsWrapper);
       divQsWrapper.appendChild(tableQueryString);
 
-    } else if (message.includes("ERROR")){
+    } else if (message.includes("ERROR")) {
 
       let labelErro = document.createElement("hr");
       labelErro.setAttribute("class", "label error");
+      divTrack.setAttribute("class", "track erro");
       divLogs.appendChild(divTrack);
       divTrack.appendChild(labelErro);
       divTrack.appendChild(sectionErro);
@@ -121,6 +123,7 @@ stopButton.addEventListener("click", () => {
     } else {
       let labelWarning = document.createElement("hr");
       labelWarning.setAttribute("class", "label warn");
+      divTrack.setAttribute("class", "track exception");
       divLogs.appendChild(divTrack);
       divTrack.appendChild(labelWarning);
       divTrack.appendChild(sectionErro);
@@ -142,6 +145,12 @@ stopButton.addEventListener("click", () => {
         keys.forEach((key) => {
           let tableLine = document.createElement("tr");
 
+          if (message.includes("WARNING")) {
+            if (messageWithoutObject.includes(key)) {
+              tableLine.setAttribute("id", "warning");
+            }
+          }
+
           let tableKey = document.createElement("td");
           tableKey.setAttribute("class", "key");
           let keyText = index || index === 0 ? objName + "[" + index + "]" + "." + key : objName + "." + key;
@@ -152,15 +161,15 @@ stopButton.addEventListener("click", () => {
           tableValue.setAttribute("class", "value");
           //console.log(event[key]);
           //console.log(typeof event[key]);
-          if(Array.isArray(event[key])){
+          if (Array.isArray(event[key])) {
             //console.log("teste")
             tableValue.appendChild(document.createTextNode("Array[ ]"));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
-            for(let i=0; i<event[key].length; i++){
-              treatment(event[key][i], keyText, i);  
+            for (let i = 0; i < event[key].length; i++) {
+              treatment(event[key][i], keyText, i);
             };
-          }else if (typeof event[key] == "object") { // Verify if the event[key] was an object.
+          } else if (typeof event[key] == "object") { // Verify if the event[key] was an object.
             tableValue.appendChild(document.createTextNode("Object{ }"));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.

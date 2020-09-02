@@ -29,6 +29,10 @@ header>* {
 	background-image: linear-gradient(to right, #fcc441 0%, #1a71a9 19%, #1a71a9 43%, #1e9449 59%, #1e9449 100%);
 }
 
+#warning {
+	background-color: #fbac3da2;
+}
+
 #bowser {
 	padding-left: 10px;
 }
@@ -108,6 +112,11 @@ header>* {
 	background-image: url('../img/ico-exception.png');
 }
 
+.filter .erro,
+.track.erro {
+	background-image: url('../img/ico-erro.png');
+}
+
 .clear,
 #busca {
 	border: 1px solid #ccc;
@@ -181,8 +190,7 @@ header>* {
 	background-color: #fbab3d;
 }
 
-.label.error,
-.track.exception .label {
+.label.error {
 	background-color: #ff5a5a;
 }
 
@@ -261,7 +269,8 @@ header>* {
 .item .track.item:not(.hidden),
 .timing .track.timing:not(.hidden),
 .appview .track.appview:not(.hidden),
-.exception .track.exception:not(.hidden) {
+.exception .track.exception:not(.hidden),
+.erro .track.erro:not(.hidden) {
 	display: block !important;
 }
 
