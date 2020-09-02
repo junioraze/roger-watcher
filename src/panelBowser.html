@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Bowser Jr. - by dp6</title>
+	<script> window.dataLayer = [] </script>
+	
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<!-- @dev-css -->
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!-- dev-css@ -->
+</head>
+
+<body>
+	<header>
+		<a href="./panelBowser.html"> <img src="./bowserFiles/img/Paper_Bowser_24654.ico" id="logo" alt=""> </a>
+		<a href="./panel_ui.html" title="Roger Watcher - dp6 TECH" id="logo" target="blank">
+			<img src="icons/icon36.png" alt="dp6.com.br">
+		</a>
+		<hr id="stripes">
+	</header>
+	<section id="panel">
+		<div id="bowser">
+			<p>Informe o nome do dataLayer:</p>
+			<input type="text" id="inputDataLayerName">
+
+			<br>
+			<br>
+
+			<p>Selecione o Schema que deseja utilizar para a validação <strong>(.json)</strong></p>
+			<input type="file" id="inputFile" multiple accept=".json"></input>
+
+			<br>
+			<br>
+
+			<button id="startTest">Start Test</button>
+
+			<button id="stopTest" disabled=true >Stop Test</button>
+
+			<button id="export">Export</button>
+		</div>
+		<br>
+
+		<div id="logs">
+			
+			<!--Espaço onde vai ser criado os logs.-->
+
+		</div>
+
+	</section>
+	<script type="text/html" id="template-universal">
+		<div class="track">
+			<hr class="label">
+			<section>
+				<p class="content"></p>
+				<div class="qsWrapper">
+					<table class="queryString"></table>
+				</div>
+			</section>
+			<a href="#" class="delete" title="Remove"></a>
+		</div>
+	</script>
+	<!-- @dev-js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ajv/6.12.4/ajv.min.js" integrity="sha512-jT80r/QIunAH3Bng0028a3kMjhpr+ApSrAjshiM+0+6s/O01//jwogIby3WnFle7UxDas+/gf3BgI4Rjju17ww==" crossorigin="anonymous"></script>
+	<script src="./bowserFiles/index.js" type="module"></script>
+	<script src="js/jquery.js"></script>
+	<script>
+		const RW = {
+			panel: jQuery('#panel'),
+			busca: jQuery('#busca'),
+			info: {
+				name: 'Dev',
+				version: 'X.X.X'
+			},
+			util: {
+				sub: () => {}
+			},
+			clear() {
+				jQuery('.track').remove();
+				this.busca.val('');
+			}
+		};
+	</script>
+	<script src="js/eventos.js"></script>
+	<script src="js/tagueamento.js"></script>
+	<!-- dev-js@ -->
+</body>
+
+</html>
+
