@@ -32,9 +32,6 @@ header>* {
 #warning {
 	background-color: #fbac3da2;
 }
-#bowser {
-	padding-left: 10px;
-}
 
 #logo {
 	height: 42px;
@@ -281,15 +278,16 @@ header>* {
 }
 
 #inputFileLabel {
-	border: 2px inset rgba(94, 90, 92, 0.884);
+	border: 1px solid #ccc;
 	margin-right: 3px;
 	padding: 1.7px 25px;
 	padding-right: 9px;
-	background: url("inputFile.png") #DEDEDE;
+	background: url("inputFile.png") #eeeeee;
 	background-repeat: no-repeat;
 	background-position: 3px center;
-	border-radius: 7px;
+	border-radius: 3px;
 	cursor: pointer;	
+	transition: all 0.5s;
 }
 
 #startTest {
@@ -305,14 +303,49 @@ header>* {
 }
 
 #startTest, #stopTest, #export {
-	width: 92px;
-	height: 22px;
+	color: #555;
+	width: 100px;
+	height: 25px;
+	transition: all 0.5s;
 
-	border: 2px inset rgba(94, 90, 92, 0.884);
+	border: 1px solid #ccc;
 	text-align: center;
 	background-repeat: no-repeat;
-	background-color: #DEDEDE;
+	background-color: #eeeeee;
 	background-position: 3px;
-	border-radius: 7px;
-	cursor: pointer;
+	border-radius: 3px;
+	cursor: default;
+	border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#stopTest:disabled {
+	cursor: default;
+	opacity: 0.5;
+}
+
+#startTest:disabled {
+	cursor: default;
+	opacity: 0.5;
+}
+
+#exportTest:disabled {
+	cursor: default;
+	opacity: 0.5;
+}
+
+#startTest:not(:disabled):hover,#startTest:not(:disabled):active {
+	background-color: #ccc;
+}
+
+#stopTest:not(:disabled):hover, #stopTest:not(:disabled):active {
+	background-color: #ccc;
+}
+
+#export:not(:disabled):hover, #export:not(:disabled):active {
+	background-color: #ccc;
+}
+
+#inputFileLabel:not(:disabled):hover, #inputFileLabel:not(:disabled):active {
+	background-color: #ccc;
 }

@@ -20,7 +20,16 @@
 			<img src="icons/icon36.png" alt="dp6.com.br">
 		</a>
 
+		<ul class="filter">
+			<li><a href="#" title="PageView" class="pageview"></a></li>
+			<li><a href="#" title="exception" class="exception"></a></li>
+			<li><a href="#" title="Erro" class="erro"></a></li>
+		</ul>
+		<button class="clear clear-filter">Clear Filters</button>
+
+
 		<div id="bowser">
+			
 			<abbr title="Selecione o Schema que deseja utilizar para a validação (.json)">
 				<label id="inputFileLabel" for="inputFile">
 					Upload File
@@ -28,27 +37,20 @@
 			</abbr>
 			<input type="file" id="inputFile" multiple accept=".json"></input>
 
+			<input type="text" id="inputDataLayerName" placeholder="dataLayer name">
+
 			<button id="startTest">Start</button>
 
 			<button id="stopTest" disabled=true >Stop</button>
 
 			<button id="export">Export</button>
+
+
 		</div>
 
-		<ul class="filter">
-			<li><a href="#" title="PageView" class="pageview"></a></li>
-			<li><a href="#" title="exception" class="exception"></a></li>
-			<li><a href="#" title="Erro" class="erro"></a></li>
-		</ul>
-		<button class="clear clear-filter">Clear Filters</button>
 		<hr id="stripes">
 	</header>
 	<section id="panel">
-		<div id="bowser">
-			<p>Informe o nome do dataLayer:</p>
-			<input type="text" id="inputDataLayerName">
-		</div>
-		<br>
 
 		<div id="logs">
 			
