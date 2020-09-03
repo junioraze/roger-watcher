@@ -32,7 +32,6 @@ header>* {
 #warning {
 	background-color: #fbac3da2;
 }
-
 #bowser {
 	padding-left: 10px;
 }
@@ -116,7 +115,6 @@ header>* {
 .track.erro {
 	background-image: url('../img/ico-erro.png');
 }
-
 .clear,
 #busca {
 	border: 1px solid #ccc;
@@ -276,4 +274,45 @@ header>* {
 
 .track.hidden {
 	display: none !important;
+}
+
+#inputFile {
+	display: none;
+}
+
+#inputFileLabel {
+	border: 2px inset rgba(94, 90, 92, 0.884);
+	margin-right: 3px;
+	padding: 1.7px 25px;
+	padding-right: 9px;
+	background: url("inputFile.png") #DEDEDE;
+	background-repeat: no-repeat;
+	background-position: 3px center;
+	border-radius: 7px;
+	cursor: pointer;	
+}
+
+#startTest {
+	background: url("startTest.png");
+}
+
+#stopTest {
+	background: url("stop-button.png");
+}
+
+#export {
+	background: url("export.png");
+}
+
+#startTest, #stopTest, #export {
+	width: 92px;
+	height: 22px;
+
+	border: 2px inset rgba(94, 90, 92, 0.884);
+	text-align: center;
+	background-repeat: no-repeat;
+	background-color: #DEDEDE;
+	background-position: 3px;
+	border-radius: 7px;
+	cursor: pointer;
 }

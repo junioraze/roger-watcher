@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Bowser Jr. - by dp6</title>
 	<script> window.dataLayer = [] </script>
-	
+
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<!-- @dev-css -->
 	<link rel="stylesheet" type="text/css" href="css/normalize.css">
@@ -19,6 +19,22 @@
 		<a href="./panel_ui.html" title="Roger Watcher - dp6 TECH" id="logo" target="blank">
 			<img src="icons/icon36.png" alt="dp6.com.br">
 		</a>
+
+		<div id="bowser">
+			<abbr title="Selecione o Schema que deseja utilizar para a validação (.json)">
+				<label id="inputFileLabel" for="inputFile">
+					Upload File
+				</label>
+			</abbr>
+			<input type="file" id="inputFile" multiple accept=".json"></input>
+
+			<button id="startTest">Start</button>
+
+			<button id="stopTest" disabled=true >Stop</button>
+
+			<button id="export">Export</button>
+		</div>
+
 		<ul class="filter">
 			<li><a href="#" title="PageView" class="pageview"></a></li>
 			<li><a href="#" title="exception" class="exception"></a></li>
@@ -31,21 +47,6 @@
 		<div id="bowser">
 			<p>Informe o nome do dataLayer:</p>
 			<input type="text" id="inputDataLayerName">
-
-			<br>
-			<br>
-
-			<p>Selecione o Schema que deseja utilizar para a validação <strong>(.json)</strong></p>
-			<input type="file" id="inputFile" multiple accept=".json"></input>
-
-			<br>
-			<br>
-
-			<button id="startTest">Start Test</button>
-
-			<button id="stopTest" disabled=true >Stop Test</button>
-
-			<button id="export">Export</button>
 		</div>
 		<br>
 
