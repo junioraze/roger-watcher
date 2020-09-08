@@ -27,14 +27,13 @@
 		</ul>
 		<button class="clear clear-filter">Clear Filters</button>
 
-
 		<div id="bowser">
 			
-			<abbr title="Selecione o Schema que deseja utilizar para a validação (.json)">
-				<label id="inputFileLabel" for="inputFile">
-					Upload File
-				</label>
-			</abbr>
+			<label 
+			title = "Select the Schema you wish to use for validation (.json)" 
+			id="inputFileLabel" 
+			for="inputFile"> Upload File </label>
+
 			<input type="file" id="inputFile" multiple accept=".json"></input>
 
 			<input type="text" id="inputDataLayerName" placeholder="dataLayer name">
@@ -45,6 +44,11 @@
 
 			<button id="export">Export</button>
 
+			<input id="busca" type="text" placeholder=" Search here...">
+			<label title="Should scroll to the bottom whenever a new hit is parsed"><input type="checkbox" name="autoscroll"
+			id="autoscroll" checked>
+				<span>Autoscroll</span>
+			</label>
 
 		</div>
 
