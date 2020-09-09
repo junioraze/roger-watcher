@@ -19,7 +19,79 @@
 		<a href="./panel_ui.html" title="Roger Watcher - dp6 TECH" id="logo" target="blank">
 			<img src="icons/icon36.png" alt="dp6.com.br">
 		</a>
-		<a href="./panelLudwig.html"> Ludwig </a>
+		<!-- Trigger/Open The Modal -->
+		<button id="ludwigBtn">Ludwig</button>
+
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+
+			<!-- Modal content -->
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div id="ludwig">
+					<h1 class="title-ludwig">DataLayer Generator</h1>
+
+					<br>
+
+					<form id="schema">
+
+						<button id="add-event"> Add Event</button>
+
+						<br>
+
+						<label for="type">Type: </label>
+						<select name="type" id="type">
+							<option value="object">Object</option>
+							<option value="array">Array</option>
+							<option value="string">String</option>
+							<option value="boolean">Boolean</option>
+							<option value="number">Number</option>
+						</select>
+
+						<label for="key-name">Key Name: </label>
+						<input type="text" name="key-name" id="key-name">
+
+						<br>
+
+						<label for="validation">Validation: </label>
+						<select name="validation" id="validation">
+							<option value="equals">equals</option>
+							<option value="regex-match">regex_match</option>
+						</select>
+
+						<label for="condition">Condition: </label>
+						<input type="text" name="condition" id="condition">
+
+
+						<br>
+
+						<label for="mode">Mode: </label>
+						<select name="mode" id="mode">
+							<option value="required">Required</option>
+							<option value="non-required">Non Required</option>
+						</select>
+
+
+						<br>
+
+						<button id="confirm" class="icon-btn"></button>
+						<button id="end" class="icon-btn"></button>
+
+
+						<br>
+
+						<p id="preview"></p>
+
+					</form>
+
+					<br>
+
+					<button id="export-json">Export JSON</button>
+					<button id="use-in-page">Use JSON</button>
+				</div>
+			</div> <!-- Modal content -->
+
+		</div>
 
 		<ul class="filter">
 			<li><a href="#" title="PageView" class="pageview"></a></li>
@@ -29,27 +101,22 @@
 		<button class="clear clear-filter">Clear Filters</button>
 
 		<div id="bowser">
-			
-			<label 
-			title = "Select the Schema you wish to use for validation (.json)" 
-			id="inputFileLabel" 
-			for="inputFile"> Upload File </label>
+
+			<label title="Select the Schema you wish to use for validation (.json)" id="inputFileLabel" for="inputFile">
+				Upload File </label>
 
 			<input type="file" id="inputFile" multiple accept=".json"></input>
 
-			<input type="text" id="inputDataLayerName" placeholder="dataLayer name">
+			<input type="text" id="inputDataLayerName" placeholder="dataLayer name...">
 
 			<button id="startTest">Start</button>
 
-			<button id="stopTest" disabled=true >Stop</button>
+			<button id="stopTest" disabled=true>Stop</button>
 
 			<button id="export">Export</button>
 
 			<input id="busca" type="text" placeholder=" Search here...">
-			<label title="Should scroll to the bottom whenever a new hit is parsed"><input type="checkbox" name="autoscroll"
-			id="autoscroll" checked>
-				<span>Autoscroll</span>
-			</label>
+
 
 		</div>
 
@@ -58,12 +125,14 @@
 	<section id="panel">
 
 		<div id="logs">
-			
+
 			<!--Espaço onde vai ser criado os logs.-->
 
 		</div>
 
 	</section>
+
+	<!--Scripts-->
 	<script type="text/html" id="template-universal">
 		<div class="track">
 			<hr class="label">
@@ -77,7 +146,9 @@
 		</div>
 	</script>
 	<!-- @dev-js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ajv/6.12.4/ajv.min.js" integrity="sha512-jT80r/QIunAH3Bng0028a3kMjhpr+ApSrAjshiM+0+6s/O01//jwogIby3WnFle7UxDas+/gf3BgI4Rjju17ww==" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ajv/6.12.4/ajv.min.js"
+		integrity="sha512-jT80r/QIunAH3Bng0028a3kMjhpr+ApSrAjshiM+0+6s/O01//jwogIby3WnFle7UxDas+/gf3BgI4Rjju17ww=="
+		crossorigin="anonymous"></script>
 	<script src="./bowserFiles/index.js" type="module"></script>
 	<script src="js/jquery.js"></script>
 	<script>
@@ -89,7 +160,7 @@
 				version: 'X.X.X'
 			},
 			util: {
-				sub: () => {}
+				sub: () => { }
 			},
 			clear() {
 				jQuery('.track').remove();
@@ -103,4 +174,3 @@
 </body>
 
 </html>
-
