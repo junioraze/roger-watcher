@@ -1,4 +1,4 @@
-import validateObject from './lib/ajv.js';
+import validateObject from '../lib/ajv.js';
 //import schema from "./lib/teste.js";
 //var file;
 window.bowserjr = {};
