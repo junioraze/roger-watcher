@@ -331,6 +331,23 @@ header>* {
     border-bottom-right-radius: 0;
 }
 
+#properties {
+	color: #555;
+	width: 350px;
+	height: 25px;
+	transition: all 0.5s;
+	line-height: 15px;
+	border: 1px solid #ccc;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-color: #eeeeee;
+	background-position: 3px;
+	border-radius: 3px;
+	cursor: default;
+	border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 #startTest, #stopTest, #export, #ludwigBtn, #mode, #type, #validation, #export-json, #use-in-page, #add-event, #bowser-btn {
 	color: #555;
 	width: 100px;

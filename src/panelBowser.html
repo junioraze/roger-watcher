@@ -19,7 +19,7 @@
 			title="Roger Watcher - dp6 TECH" id="logo" target="blank">
 			<img src="icons/icon36.png" alt="dp6.com.br">
 		</a>
-		<a href="./panel_ui.html"> <button id="roger-btn">Roger Watcher</button> </a>
+		<a href="./panel.html"> <button id="roger-btn">Roger Watcher</button> </a>
 
 		<!-- Trigger/Open The Modal -->
 		<button id="ludwigBtn">Ludwig</button>
@@ -30,67 +30,66 @@
 			<!-- Modal content -->
 			<div class="modal-content">
 				<span class="close">&times;</span>
+				<!-- Ludwig -->
 				<div id="ludwig">
 					<h1 class="title-ludwig">DataLayer Generator</h1>
 
 					<br>
 
-					
+					<button id="add-event"> Add Event</button>
 
-						<button id="add-event"> Add Event</button>
+					<br>
 
-						<br>
+					<label for="type">Type: </label>
+					<select name="type" id="type">
+						<option value="object">Object</option>
+						<option value="array">Array</option>
+						<option value="string">String</option>
+						<option value="boolean">Boolean</option>
+						<option value="number">Number</option>
+					</select>
 
-						<label for="type">Type: </label>
-						<select name="type" id="type">
-							<option value="object">Object</option>
-							<option value="array">Array</option>
-							<option value="string">String</option>
-							<option value="boolean">Boolean</option>
-							<option value="number">Number</option>
+					<label for="key-name">Key Name: </label>
+					<input type="text" name="key-name" id="key-name">
+
+					<br>
+
+					<label for="validation">Validation: </label>
+					<select name="validation" id="validation" disabled=true>
+						<option value="equals">equals</option>
+						<option value="regex-match">regex_match</option>
+					</select>
+
+					<label for="condition">Condition: </label>
+					<input type="text" name="condition" id="condition" disabled=true>
+
+					<br>
+
+					<label for="mode">Mode: </label>
+					<select name="mode" id="mode">
+						<option value="required">Required</option>
+						<option value="non-required">Non Required</option>
+					</select>
+
+					<br>
+
+					<button id="confirm" class="icon-btn"></button>
+					<button id="end" class="icon-btn"></button>
+
+					<br>
+
+					<div id="schema">
+						<select id="properties">
+							<option value="SelectObject">Select a Object</option>
 						</select>
-
-						<label for="key-name">Key Name: </label>
-						<input type="text" name="key-name" id="key-name">
-
-						<br>
-
-						<label for="validation">Validation: </label>
-						<select name="validation" id="validation">
-							<option value="equals">equals</option>
-							<option value="regex-match">regex_match</option>
-						</select>
-
-						<label for="condition">Condition: </label>
-						<input type="text" name="condition" id="condition">
-
-
-						<br>
-
-						<label for="mode">Mode: </label>
-						<select name="mode" id="mode">
-							<option value="required">Required</option>
-							<option value="non-required">Non Required</option>
-						</select>
-
-
-						<br>
-
-						<button id="confirm" class="icon-btn"></button>
-						<button id="end" class="icon-btn"></button>
-
-
-						<br>
-
-						<p id="preview"></p>
-
+					</div>
 					
 
 					<br>
 
 					<button id="export-json">Export JSON</button>
 					<button id="use-in-page">Use JSON</button>
-				</div>
+				</div> <!-- Ludwig -->
 			</div> <!-- Modal content -->
 
 		</div>
@@ -152,6 +151,7 @@
 		integrity="sha512-jT80r/QIunAH3Bng0028a3kMjhpr+ApSrAjshiM+0+6s/O01//jwogIby3WnFle7UxDas+/gf3BgI4Rjju17ww=="
 		crossorigin="anonymous"></script>
 	<script src="./bowserFiles/js/index.js" type="module"></script>
+	<script src="./bowserFiles/js/ludwig.js" type="module"></script>
 	<script src="js/jquery.js"></script>
 	<script>
 		const RW = {
