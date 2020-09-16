@@ -11,6 +11,7 @@ const inputElement = document.getElementById("inputFile");
 const dataLayerName = document.getElementById("inputDataLayerName");
 const startButton = document.getElementById("startTest");
 const stopButton = document.getElementById("stopTest");
+window.bowserjr.file;
 
 
 

@@ -10,6 +10,10 @@ const clear = document.getElementById("end");
 const preview = document.getElementById("preview");
 const divSchema = document.getElementById("schema");
 const selectProperties = document.getElementById("properties");
+const buttonExport = document.getElementById("export-json");
+const buttonUseJson = document.getElementById("use-in-page");
+const uploadButton = document.getElementById("inputFileLabel");
+const modal = document.getElementById("myModal");
 
 // Schema.
 let jsonSchema = [];
@@ -114,9 +118,53 @@ confirm.addEventListener("click", () => {
 addEvent.addEventListener("click", () => {
     jsonSchema.push(objAux);
     objAux = { type: "object", properties: {}, required: [] };
-    console.log(jsonSchema);
+    
+    let fullResult
+
+    fullResult = {
+        "$schema": "",
+        "title": "The Root Schema",
+        "array": {
+            "$id": "#/properties/schema",
+            "type": "array",
+            "items": [
+        
+            ]
+        }
+    }
+
+    for (var prop of Object.entries(jsonSchema[0].properties)){
+        fullResult.array.items.push(prop[1]);
+    };
+    
+    window.bowserjr.jsonSchema = fullResult;
+    console.log("fullResult: ", fullResult);
 
     while (selectProperties.length != 1) {
         selectProperties.remove(1);
     }
+});
+
+buttonExport.addEventListener("click", () => {
+  let filename = `jsonSchema_${new Date().getTime()}.json`;
+
+  let a = document.createElement("a");
+
+  document.body.appendChild(a);
+
+  a.style = "display: none";
+
+  let blob = new Blob([JSON.stringify(window.bowserjr.jsonSchema, null, 2)], { contentType: "application/json" }),
+    url = window.URL.createObjectURL(blob);
+
+  a.href = url;
+  a.download = filename;
+  a.click();
+  window.URL.revokeObjectURL(url);
+});
+
+buttonUseJson.addEventListener("click", () => {
+    window.bowserjr.file = window.bowserjr.jsonSchema;
+    uploadButton.setAttribute("for", "");
+    modal.style.display = "none";
 });
