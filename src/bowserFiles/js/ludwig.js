@@ -145,21 +145,25 @@ addEvent.addEventListener("click", () => {
 });
 
 buttonExport.addEventListener("click", () => {
-  let filename = `jsonSchema_${new Date().getTime()}.json`;
+    if(!window.bowserjr.jsonSchema) {
+        alert("É necessário primeiro criar um schema.");
+    } else {
+        let filename = `jsonSchema_${new Date().getTime()}.json`;
 
-  let a = document.createElement("a");
+        let a = document.createElement("a");
 
-  document.body.appendChild(a);
+        document.body.appendChild(a);
 
-  a.style = "display: none";
+        a.style = "display: none";
 
-  let blob = new Blob([JSON.stringify(window.bowserjr.jsonSchema, null, 2)], { contentType: "application/json" }),
-    url = window.URL.createObjectURL(blob);
+        let blob = new Blob([JSON.stringify(window.bowserjr.jsonSchema, null, 2)], { contentType: "application/json" }),
+            url = window.URL.createObjectURL(blob);
 
-  a.href = url;
-  a.download = filename;
-  a.click();
-  window.URL.revokeObjectURL(url);
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
 });
 
 function useInPage() {
