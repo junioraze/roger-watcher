@@ -138,7 +138,6 @@ addEvent.addEventListener("click", () => {
     };
     
     window.bowserjr.jsonSchema = fullResult;
-    console.log("fullResult: ", fullResult);
 
     while (selectProperties.length != 1) {
         selectProperties.remove(1);
@@ -163,8 +162,21 @@ buttonExport.addEventListener("click", () => {
   window.URL.revokeObjectURL(url);
 });
 
-buttonUseJson.addEventListener("click", () => {
+function useInPage() {
     window.bowserjr.file = window.bowserjr.jsonSchema;
     uploadButton.setAttribute("for", "");
     modal.style.display = "none";
+};
+
+buttonUseJson.addEventListener("click", () => {
+    if (window.bowserjr.file && window.bowserjr.jsonSchema) {
+        let input = window.confirm("Um schema já foi selecionado. Deseja substituí-lo?");
+        if (input) {
+            useInPage();
+        }
+    } else if (!window.bowserjr.jsonSchema) {
+        alert("É necessário primeiro criar um schema.");
+    } else {
+        useInPage();
+    };
 });
