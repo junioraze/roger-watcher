@@ -27,7 +27,7 @@ function handleFiles() {
     try {
       startButton.disabled = false;
       window.bowserjr.file = JSON.parse(reader.result);
-    } catch{
+    } catch {
       alert("Selecione um arquivo JSON para prosseguir !!")
       startButton.disabled = true;
     }
@@ -98,39 +98,24 @@ stopButton.addEventListener("click", () => {
 
     paragraphy.appendChild(document.createTextNode(messageWithoutObject));
 
+    function creatingLabels(labelType, trackType, section) {
+      let label = document.createElement("hr");
+      label.setAttribute("class", labelType);
+      divTrack.setAttribute("class", trackType);
+      divLogs.appendChild(divTrack);
+      divTrack.appendChild(label);
+      divTrack.appendChild(section);
+      section.appendChild(paragraphy);
+      section.appendChild(divQsWrapper);
+      divQsWrapper.appendChild(tableQueryString);
+    }
+
     if (message.includes("Validated Successfully")) {
-
-      let labelOk = document.createElement("hr");
-      labelOk.setAttribute("class", "label ok");
-      divTrack.setAttribute("class", "track pageview");
-      divLogs.appendChild(divTrack);
-      divTrack.appendChild(labelOk);
-      divTrack.appendChild(sectionSucessfuly);
-      sectionSucessfuly.appendChild(paragraphy);
-      sectionSucessfuly.appendChild(divQsWrapper);
-      divQsWrapper.appendChild(tableQueryString);
-
+      creatingLabels("label ok", "track pageview", sectionSucessfuly);
     } else if (message.includes("ERROR")) {
-
-      let labelErro = document.createElement("hr");
-      labelErro.setAttribute("class", "label error");
-      divTrack.setAttribute("class", "track erro");
-      divLogs.appendChild(divTrack);
-      divTrack.appendChild(labelErro);
-      divTrack.appendChild(sectionErro);
-      sectionErro.appendChild(paragraphy);
-      sectionErro.appendChild(divQsWrapper);
-      divQsWrapper.appendChild(tableQueryString);
+      creatingLabels("label error", "track erro", sectionErro);
     } else {
-      let labelWarning = document.createElement("hr");
-      labelWarning.setAttribute("class", "label warn");
-      divTrack.setAttribute("class", "track exception");
-      divLogs.appendChild(divTrack);
-      divTrack.appendChild(labelWarning);
-      divTrack.appendChild(sectionErro);
-      sectionErro.appendChild(paragraphy);
-      sectionErro.appendChild(divQsWrapper);
-      divQsWrapper.appendChild(tableQueryString);
+      creatingLabels("label warn", "track exception", sectionErro);
     }
 
     function treatment(event, objName, index) {
@@ -230,17 +215,17 @@ const btn = document.getElementById("ludwigBtn");
 const span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
-btn.onclick = function() {
+btn.onclick = function () {
   modal.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
   modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
