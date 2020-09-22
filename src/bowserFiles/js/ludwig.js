@@ -133,8 +133,8 @@ addEvent.addEventListener("click", () => {
         }
     }
 
-    for (var prop of Object.entries(jsonSchema[0].properties)){
-        fullResult.array.items.push(prop[1]);
+    for (var prop of jsonSchema){
+        fullResult.array.items.push(prop);
     };
     
     window.bowserjr.jsonSchema = fullResult;
