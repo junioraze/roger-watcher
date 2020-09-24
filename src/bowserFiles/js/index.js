@@ -4,6 +4,7 @@ import validateObject from '../lib/ajv.js';
 window.bowserjr = {};
 
 window.bowserjr.result = [];
+window.bowserjr.resultExport = [];
 window.bowserjr.resultWithoutObject = [];
 
 // Get DOM elements.
@@ -44,13 +45,15 @@ startButton.addEventListener("click", () => {
   // Verify if the dataLayer name and file exist.
   if (window.bowserjr.file && window[dataLayerName.value]) {
 
-    window[dataLayerName.value].push_c = window[dataLayerName.value].push;
-    window[dataLayerName.value].push = function (obj) {
-      window[dataLayerName.value].push_c(obj);
-      validateObject(window.file, obj);
+    if (!window[dataLayerName.value].push_c) {
+      window[dataLayerName.value].push_c = window[dataLayerName.value].push;
+      window[dataLayerName.value].push = function (obj) {
+        window[dataLayerName.value].push_c(obj);
+        validateObject(window.file, obj);
+      }
     }
     // dlObj is an array with each event.
-    let dlObj = [{ event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }, { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } }, { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } }, { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } }]
+    let dlObj = [{ event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }, { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } }, { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } }, { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } }, { event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }]
     // Events are sent to the dataLayer.
     dlObj.forEach((event) => {
       window[dataLayerName.value].push(event);
@@ -58,7 +61,7 @@ startButton.addEventListener("click", () => {
     // After clicked on the start button, the button will be hidden.
     startButton.disabled = true;
     stopButton.disabled = false;
-    inputElement.disabled = true;
+    //inputElement.disabled = true;
   } else {
     if (!window[dataLayerName.value]) alert("O dataLayer informado não existe!");
     alert("Informe o nome do dataLayer e carregue o arquivo.");
@@ -71,7 +74,7 @@ stopButton.addEventListener("click", () => {
   console.log("Realizing last eval");
   validateObject(window.file, {});
   stopButton.disabled = true;
-
+  window.bowserjr.resultExport = window.bowserjr.resultExport.concat(window.bowserjr.result);
   /*window.result.forEach((message) =>*/
   for (let i = 0; i < window.bowserjr.result.length; i++) {
     let message = window.bowserjr.result[i];
@@ -169,14 +172,25 @@ stopButton.addEventListener("click", () => {
           }
 
         });
+        return true;
+      };
+      return false;
+    };
+
+    for (let index in window[dataLayerName.value]) {
+      console.log(window[dataLayerName.value][index]);
+      if (treatment(window[dataLayerName.value][index], "")) {
+        break;
       };
     };
 
-    window[dataLayerName.value].forEach((event) => {
-      treatment(event, "");
-    });
-
+    //treatment(window[dataLayerName.value][i], "");
   };
+  startButton.disabled = false;
+  window.bowserjr.file = false;
+  inputElement.value = "";
+  window.bowserjr.result = [];
+  window.bowserjr.resultWithoutObject = [];
 });
 
 const buttonExport = document.getElementById("export");
@@ -184,7 +198,7 @@ buttonExport.addEventListener("click", () => {
   let filename = `results_${new Date().getTime()}.txt`;
   let fullResult = ""
 
-  window.bowserjr.result.forEach((line) => {
+  window.bowserjr.resultExport.forEach((line) => {
     fullResult = fullResult + line + "\n"
   });
 
