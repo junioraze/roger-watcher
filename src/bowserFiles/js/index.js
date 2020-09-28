@@ -53,7 +53,14 @@ startButton.addEventListener("click", () => {
       }
     }
     // dlObj is an array with each event.
-    let dlObj = [{ event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }, { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } }, { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } }, { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } }, { event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }]
+    let dlObj = [
+    { event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } },
+    { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } },
+    { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } },
+    { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } },
+    { event: "checkout", ecommerce: { checkout: { etapa: 2, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } },
+    { event: "update", aplicacao: { bandeira: "ex2Teste", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }
+  ]
     // Events are sent to the dataLayer.
     dlObj.forEach((event) => {
       window[dataLayerName.value].push(event);
@@ -123,14 +130,37 @@ stopButton.addEventListener("click", () => {
 
     function treatment(event, objName, index) {
       let keys = Object.keys(event); // Get the keys in the object.
-      let countAux = 0;
+      let keyCount = 0;
+      let valueCount = 0;
+      let booleanAux = true;
+      //console.log(keys);
+      //console.log(message)
 
       keys.forEach((key) => {
-        if (message.includes(key)) countAux++;
+        if (message.includes(`"${key}"`)) keyCount++;
+
+        if (Array.isArray(event[key]) || typeof event[key] == "object") {
+
+          valueCount++;
+        } else if (typeof event[key] == "number") {
+
+          if (message.includes(`"${key}":${event[key]},`) || message.includes(`"${key}":${event[key]}}`)) {
+
+           //console.log(event[key])
+            valueCount++;
+          }
+
+        } else if (message.includes(`"${key}":"${event[key]}",`) || message.includes(`"${key}":"${event[key]}"}`)) {
+
+          //console.log(event[key])
+          valueCount++;
+        }
       });
-      //console.log(countAux,keys,event);
+
+      //console.log(valueCount);
+      //console.log(keyCount,keys,event);
       // Verify if all keys are included in the message.
-      if (keys.length == countAux) {
+      if (keys.length == keyCount && keys.length == valueCount) {
         keys.forEach((key) => {
           let tableLine = document.createElement("tr");
 
@@ -156,32 +186,53 @@ stopButton.addEventListener("click", () => {
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
             for (let i = 0; i < event[key].length; i++) {
-              treatment(event[key][i], keyText, i);
+              if (!treatment(event[key][i], keyText, i)) {
+                //console.log("false1");
+                booleanAux = false;
+                for (let index = 0; index < keys.length; index++) {
+                  tableQueryString.deleteRow(0);
+                }
+              }
             };
           } else if (typeof event[key] == "object") { // Verify if the event[key] was an object.
             tableValue.appendChild(document.createTextNode("Object{ }"));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
             // console.log(event[key]);
-            treatment(event[key], keyText);
-          } else {
+            //  console.log(treatment(event[key], keyText))
+            if (!treatment(event[key], keyText)) {
+              //console.log("false1");
+              booleanAux = false;
+              for (let index = 0; index < keys.length; index++) {
+                tableQueryString.deleteRow(0);
+              }
+            }
+          } else if (typeof event[key] == "string") {
             // console.log(event[key]);
             tableValue.appendChild(document.createTextNode('"' + event[key] + '"'));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+          } else {
+            // console.log(event[key]);
+            tableValue.appendChild(document.createTextNode(event[key]));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
           }
 
         });
-        return true;
+        //console.log(booleanAux);
+        return booleanAux;
       };
+      //console.log("false2");
       return false;
     };
 
     for (let index in window[dataLayerName.value]) {
-      console.log(window[dataLayerName.value][index]);
+      //console.log(treatment(window[dataLayerName.value][index], ""));
       if (treatment(window[dataLayerName.value][index], "")) {
+       // console.log("break")
         break;
-      };
+      }
     };
 
     //treatment(window[dataLayerName.value][i], "");
