@@ -1,6 +1,18 @@
-import validateObject from '../lib/ajv.js';
+import validateObject from './ajv.js';
 //import schema from "./lib/teste.js";
 //var file;
+
+const windowTab = () => {
+  chrome.windows.getCurrent(function (currentWindow) {
+    let windowID = currentWindow.id;
+    chrome.windows.get(windowID, function (call) {
+      console.log(call)
+    });
+  });
+}
+
+windowTab()
+
 window.bowserjr = {};
 
 window.bowserjr.result = [];
@@ -54,13 +66,13 @@ startButton.addEventListener("click", () => {
     }
     // dlObj is an array with each event.
     let dlObj = [
-    { event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } },
-    { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } },
-    { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } },
-    { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } },
-    { event: "checkout", ecommerce: { checkout: { etapa: 2, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } },
-    { event: "update", aplicacao: { bandeira: "ex2Teste", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }
-  ]
+      { event: "update", aplicacao: { bandeira: "ex", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } },
+      { event: "teste", usuario: { statusLogin: "visitante", idUnicoVia: "123456", idUsuario: "78910" } },
+      { event: "update", pagina: { url: "https://www.extra.com.br/site/paginavitrinenew.aspx", nomePagina: "/vitrine/home", templatePagina: "home", tituloPagina: "extracombr o site da familia e a maior loja de informatica do brasil" } },
+      { event: "checkout", ecommerce: { checkout: { etapa: 1, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } },
+      { event: "checkout", ecommerce: { checkout: { etapa: 2, tipoFrete: "normal", tipoVendedor: "marketplace", quantidadeTotal: 1, produtos: [{ idDepartamento: "111", idLojista: "1111", idMarca: "1111", idProduto: "1111", nome: "TesteMonstro", nomeDepartamento: "1111111", nomeMarca: "1111111", preco: 111.1, quantidade: 0, sku: "1111111111", tipoVendedor: "marketplace1111" }, { idDepartamento: "836", idLojista: "11578", idMarca: "3615", idProduto: "9984900", nome: "pneu aro 13 goodyear 17570 direction touring sl 82t", nomeDepartamento: "automotivo", nomeMarca: "goodyear", preco: 197.9, quantidade: 1, sku: "13566580", tipoVendedor: "marketplace" }] } } },
+      { event: "update", aplicacao: { bandeira: "ex2Teste", dominio: "extra.com.br", ambiente: "producao", device: "desktop", servidor: "vitrineex109" } }
+    ]
     // Events are sent to the dataLayer.
     dlObj.forEach((event) => {
       window[dataLayerName.value].push(event);
@@ -146,7 +158,7 @@ stopButton.addEventListener("click", () => {
 
           if (message.includes(`"${key}":${event[key]},`) || message.includes(`"${key}":${event[key]}}`)) {
 
-           //console.log(event[key])
+            //console.log(event[key])
             valueCount++;
           }
 
@@ -230,7 +242,7 @@ stopButton.addEventListener("click", () => {
     for (let index in window[dataLayerName.value]) {
       //console.log(treatment(window[dataLayerName.value][index], ""));
       if (treatment(window[dataLayerName.value][index], "")) {
-       // console.log("break")
+        // console.log("break")
         break;
       }
     };
