@@ -375,7 +375,7 @@ header>* {
 	opacity: 0.5;
 }
 
-#exportTest:disabled {
+#export:disabled {
 	cursor: default;
 	opacity: 0.5;
 }
