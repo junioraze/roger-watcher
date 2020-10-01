@@ -1,7 +1,7 @@
 {
   "name": "Roger-Watcher",
   "description": "A validator for Universal Analytics implementations",
-  "version": "0.6.6",
+  "version": "1.0.0",
   "author": "dp6",
   "homepage": "http://www.dp6.com.br/",
   "repository": {

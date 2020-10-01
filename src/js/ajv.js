@@ -1,9 +1,8 @@
-import parseToDataLayer from './schema_parser.js'
+import parseToDataLayer from './schema_parser.js';
+import './ajv.min.js';
 
-
-
-// var Ajv = require("ajv");
-var ajv = new Ajv({
+// let Ajv = require("ajv");
+let ajv = new Ajv({
   schemaId: "auto",
   allErrors: true,
   verbose: true,
@@ -11,7 +10,7 @@ var ajv = new Ajv({
 });
 
 
-var validateObject = (schema, obj, filename) => {
+let validateObject = (schema, obj, filename) => {
   //let logsArray = [];
   //let items = schema.array.items;
   let items = window.bowserjr.file.array.items;
@@ -41,7 +40,7 @@ var validateObject = (schema, obj, filename) => {
 
         window.bowserjr.result.push("OK, Validated Successfully" + JSON.stringify(obj));
         window.bowserjr.resultWithoutObject.push("OK, Validated Successfully");
-        
+
         //items.forEach((item)=>{console.log(item);})
         items.splice(index, 1);
         //items.forEach((item)=>{console.log(item);})
@@ -63,7 +62,7 @@ var validateObject = (schema, obj, filename) => {
     const innerSchema = JSON.parse(JSON.stringify(shadowSchema)); //ajustei o innerSchema pra receber o objeto como uma nova instância, e não por referência
     let verify_required = Object.keys(innerSchema).indexOf("required"); //Verifica se existe required dentro do innerSchema
     //console.log(JSON.parse(JSON.stringify(shadowSchema)))
-    
+
     //console.log(innerSchema)
 
 
@@ -72,7 +71,7 @@ var validateObject = (schema, obj, filename) => {
       let found = innerSchema.contains.required.indexOf(
         errorMessage.params.missingProperty
       );
-        //console.log(found)
+      //console.log(found)
       if (found > -1) { //e caso o valor seja encontrado
         /* if (Object.keys(tempObj).length > 1) {
            dlObjProperty = Object.keys(tempObj)[1];
@@ -103,12 +102,12 @@ var validateObject = (schema, obj, filename) => {
 
           window.bowserjr.result.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} ` + JSON.stringify(dlObj));
           window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
-          
+
           try {
             if (errorMessage.dataPath.indexOf(Object.keys(schemaArray[schemaIndex].properties)[1]) > -1) {
               schemaArray.splice(schemaIndex, 1);
             };
-          } catch{
+          } catch {
             console.log("Objeto " + errorMessage.dataPath + " já teve seu erro tratado!!")
           }
         }
@@ -137,11 +136,11 @@ var validateObject = (schema, obj, filename) => {
       let found = innerSchema.required.indexOf(
         errorMessage.params.missingProperty
       ); //ainda mantive esse laço que checa se o schema interno tem a propriedade descrita na mensagem de erro filtrada
-        //console.log(errorMessage.params.missingProperty);
-        //console.log(found)
+      //console.log(errorMessage.params.missingProperty);
+      //console.log(found)
       if (found > -1) { //e caso o valor seja encontrado
         if (Object.keys(tempObj).length > 1) {
-          var dlObjProperty = Object.keys(tempObj)[1];
+          let dlObjProperty = Object.keys(tempObj)[1];
         } else {
           dlObjProperty = Object.keys(tempObj)[0];
         }
