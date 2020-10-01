@@ -47,6 +47,7 @@ module.exports = (grunt) => {
             'src/js/tagueamento.js',
           ],
           'dist/js/allbowserjr.js': [
+            // 'src/js/ajv.min.js',
             'src/js/scriptsBowser.js',
             'src/js/eventos.js',
             'src/js/ludwig.js',
@@ -54,6 +55,7 @@ module.exports = (grunt) => {
           'dist/js/devtools.js': 'src/js/devtools.js',
           'dist/js/bowserjr.js': 'src/js/bowserjr.js',
           'dist/js/ajv.js': 'src/js/ajv.js',
+          'dist/js/ajv.min.js': 'src/js/ajv.min.js',
           'dist/js/schema_parser.js': 'src/js/schema_parser.js',
         },
       },

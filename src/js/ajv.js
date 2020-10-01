@@ -1,4 +1,5 @@
-import parseToDataLayer from './schema_parser.js'
+import parseToDataLayer from './schema_parser.js';
+import './ajv.min.js';
 
 // let Ajv = require("ajv");
 let ajv = new Ajv({
