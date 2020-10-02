@@ -108,7 +108,7 @@ stopButton.addEventListener("click", () => {
     let divQsWrapper = document.createElement("div");
     divQsWrapper.setAttribute("class", "qsWrapper");
 
-    let queryString = document.createElement(elementTag);
+    let queryString = document.createElement("table");
     queryString.setAttribute("class", "queryString");
     queryString.setAttribute("style", "list-style: none;");
 
@@ -259,10 +259,178 @@ stopButton.addEventListener("click", () => {
   window.bowserjr.resultWithoutObject = [];
 });
 
+function pdfLogify(elementTag) {
+  validateObject(window.file, {});
+  //stopButton.disabled = true;
+  window.bowserjr.resultExport = window.bowserjr.resultExport.concat(window.bowserjr.result);
+  /*window.result.forEach((message) =>*/
+  for (let i = 0; i < window.bowserjr.result.length; i++) {
+    let message = window.bowserjr.result[i];
+    let messageWithoutObject = window.bowserjr.resultWithoutObject[i];
+
+    let paragraphy = document.createElement("p");
+    paragraphy.setAttribute("class", "content")
+
+    let divTrack = document.createElement("div");
+
+    let divQsWrapper = document.createElement("div");
+    divQsWrapper.setAttribute("class", "qsWrapper");
+
+    let queryString = document.createElement(elementTag);
+    queryString.setAttribute("class", "queryString");
+    queryString.setAttribute("style", "list-style: none;");
+
+    //const divLogs = document.getElementById("logs");
+    //const pdfLogs = document.createElement("div");
+
+    let sectionSucessfuly = document.createElement("section");
+    sectionSucessfuly.setAttribute("class", "sucessfuly");
+
+    let sectionErro = document.createElement("section");
+    sectionErro.setAttribute("class", "erro");
+
+    paragraphy.appendChild(document.createTextNode(messageWithoutObject));
+
+    function creatingLabels(labelType, trackType, section) {
+      let label = document.createElement("hr");
+      label.setAttribute("class", labelType);
+      divTrack.setAttribute("class", trackType);
+      divLogs.appendChild(divTrack);
+      divTrack.appendChild(label);
+      divTrack.appendChild(section);
+      section.appendChild(paragraphy);
+      section.appendChild(divQsWrapper);
+      divQsWrapper.appendChild(tableQueryString);
+    }
+
+    if (message.includes("Validated Successfully")) {
+      creatingLabels("label ok", "track pageview", sectionSucessfuly);
+    } else if (message.includes("ERROR")) {
+      creatingLabels("label error", "track erro", sectionErro);
+    } else {
+      creatingLabels("label warn", "track exception", sectionErro);
+    }
+
+    function treatment(event, objName, index) {
+      let keys = Object.keys(event); // Get the keys in the object.
+      let keyCount = 0;
+      let valueCount = 0;
+      let booleanAux = true;
+      //console.log(keys);
+      //console.log(message)
+
+      keys.forEach((key) => {
+        if (message.includes(`"${key}"`)) keyCount++;
+
+        if (Array.isArray(event[key]) || typeof event[key] == "object") {
+
+          valueCount++;
+        } else if (typeof event[key] == "number") {
+
+          if (message.includes(`"${key}":${event[key]},`) || message.includes(`"${key}":${event[key]}}`)) {
+
+            //console.log(event[key])
+            valueCount++;
+          }
+
+        } else if (message.includes(`"${key}":"${event[key]}",`) || message.includes(`"${key}":"${event[key]}"}`)) {
+
+          //console.log(event[key])
+          valueCount++;
+        }
+      });
+
+      //console.log(valueCount);
+      //console.log(keyCount,keys,event);
+      // Verify if all keys are included in the message.
+      if (keys.length == keyCount && keys.length == valueCount) {
+        keys.forEach((key) => {
+          let tableLine = document.createElement("tr");
+
+          if (message.includes("WARNING")) {
+            if (messageWithoutObject.includes(key)) {
+              tableLine.setAttribute("id", "warning");
+            }
+          }
+
+          let tableKey = document.createElement("td");
+          tableKey.setAttribute("class", "key");
+          let keyText = index || index === 0 ? objName + "[" + index + "]" + "." + key : objName + "." + key;
+          tableKey.appendChild(document.createTextNode(keyText));
+          tableLine.appendChild(tableKey); // Write the Key in the line
+
+          let tableValue = document.createElement("td");
+          tableValue.setAttribute("class", "value");
+          //console.log(event[key]);
+          //console.log(typeof event[key]);
+          if (Array.isArray(event[key])) {
+            //console.log("teste")
+            tableValue.appendChild(document.createTextNode("Array[ ]"));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+            for (let i = 0; i < event[key].length; i++) {
+              if (!treatment(event[key][i], keyText, i, elementTag)) {
+                //console.log("false1");
+                booleanAux = false;
+                for (let index = 0; index < keys.length; index++) {
+                  tableQueryString.deleteRow(0);
+                }
+              }
+            };
+          } else if (typeof event[key] == "object") { // Verify if the event[key] was an object.
+            tableValue.appendChild(document.createTextNode("Object{ }"));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+            // console.log(event[key]);
+            //  console.log(treatment(event[key], keyText))
+            if (!treatment(event[key], keyText)) {
+              //console.log("false1");
+              booleanAux = false;
+              for (let index = 0; index < keys.length; index++) {
+                tableQueryString.deleteRow(0);
+              }
+            }
+          } else if (typeof event[key] == "string") {
+            // console.log(event[key]);
+            tableValue.appendChild(document.createTextNode('"' + event[key] + '"'));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+          } else {
+            // console.log(event[key]);
+            tableValue.appendChild(document.createTextNode(event[key]));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+          }
+
+        });
+        //console.log(booleanAux);
+        return booleanAux;
+      };
+      //console.log("false2");
+      return false;
+    };
+
+    for (let index in window[dataLayerName.value]) {
+      //console.log(treatment(window[dataLayerName.value][index], ""));
+      if (treatment(window[dataLayerName.value][index], "")) {
+        // console.log("break")
+        break;
+      }
+    };
+
+    //treatment(window[dataLayerName.value][i], "");
+  };
+  startButton.disabled = false;
+  window.bowserjr.file = false;
+  inputElement.value = "";
+  window.bowserjr.result = [];
+  window.bowserjr.resultWithoutObject = [];
+}
+
 buttonExport.addEventListener("click", () => {
   let filename = `results_${new Date().getTime()}.pdf`;
 
-  let fullResult = logify("div");
+  let fullResult = pdfLogify("div");
   //console.log("log: ", log);
 
   const doc = new jsPDF();
