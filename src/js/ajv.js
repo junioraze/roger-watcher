@@ -140,7 +140,7 @@ let validateObject = (schema, obj, filename) => {
       //console.log(found)
       if (found > -1) { //e caso o valor seja encontrado
         if (Object.keys(tempObj).length > 1) {
-          let dlObjProperty = Object.keys(tempObj)[1];
+          var dlObjProperty = Object.keys(tempObj)[1];
         } else {
           dlObjProperty = Object.keys(tempObj)[0];
         }

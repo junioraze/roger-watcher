@@ -2,6 +2,7 @@ import validateObject from './ajv.js';
 //import schema from "./lib/teste.js";
 //var file;
 
+/*
 const windowTab = () => {
   chrome.windows.getCurrent(function (currentWindow) {
     let windowID = currentWindow.id;
@@ -12,7 +13,7 @@ const windowTab = () => {
 }
 
 windowTab()
-
+*/
 window.bowserjr = {};
 
 window.bowserjr.result = [];
@@ -108,11 +109,11 @@ stopButton.addEventListener("click", () => {
     let divQsWrapper = document.createElement("div");
     divQsWrapper.setAttribute("class", "qsWrapper");
 
-    let queryString = document.createElement("table");
-    queryString.setAttribute("class", "queryString");
-    queryString.setAttribute("style", "list-style: none;");
+    let tableQueryString = document.createElement("table");
+    tableQueryString.setAttribute("class", "queryString");
+    tableQueryString.setAttribute("style", "list-style: none;");
 
-    //const divLogs = document.getElementById("logs");
+    const divLogs = document.getElementById("logs");
     //const pdfLogs = document.createElement("div");
 
     let sectionSucessfuly = document.createElement("section");
@@ -274,9 +275,9 @@ function pdfLogify(elementTag) {
     let divQsWrapper = document.createElement("div");
     divQsWrapper.setAttribute("class", "qsWrapper");
 
-    let queryString = document.createElement(elementTag);
-    queryString.setAttribute("class", "queryString");
-    queryString.setAttribute("style", "list-style: none;");
+    let tableQueryString = document.createElement(elementTag);
+    tableQueryString.setAttribute("class", "queryString");
+    tableQueryString.setAttribute("style", "list-style: none;");
 
     //const divLogs = document.getElementById("logs");
     //const pdfLogs = document.createElement("div");
