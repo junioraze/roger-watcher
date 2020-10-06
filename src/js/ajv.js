@@ -9,7 +9,6 @@ let ajv = new Ajv({
   ownProperties: true,
 });
 
-
 let validateObject = (schema, obj, filename) => {
   //let logsArray = [];
   //let items = schema.array.items;
@@ -339,7 +338,5 @@ let validateObject = (schema, obj, filename) => {
 
   //window.bowserjr.result.push(logsArray);
 };
-
-
 
 export default validateObject;
