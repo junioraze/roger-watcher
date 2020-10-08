@@ -18,6 +18,7 @@ window.bowserjr = {};
 window.bowserjr.result = [];
 window.bowserjr.resultExport = [];
 window.bowserjr.resultWithoutObject = [];
+window.bowserjr.resultWithoutObjectExport = [];
 window.bowserjr.validateObject = validateObject;
 window.bowserjr.validateObject ? console.log("Yay! BowserJR Loaded!") : console.log("BowserJR didn't load :'( ");
 window.bowserjr.file;
@@ -80,6 +81,7 @@ btnStopBowser.onclick = () => {
   validateObject(window.file, {});
   btnStopBowser.disabled = true;
   window.bowserjr.resultExport = window.bowserjr.resultExport.concat(window.bowserjr.result);
+  window.bowserjr.resultWithoutObjectExport = window.bowserjr.resultWithoutObjectExport.concat(window.bowserjr.resultWithoutObject);
 
   for (let i = 0; i < window.bowserjr.result.length; i++) {
     let message = window.bowserjr.result[i];
@@ -95,7 +97,6 @@ btnStopBowser.onclick = () => {
 
     let tableQueryString = document.createElement("table");
     tableQueryString.setAttribute("class", "queryString");
-    tableQueryString.setAttribute("style", "list-style: none;");
 
     const divLogs = document.getElementById("logs");
 
@@ -214,13 +215,15 @@ btnStopBowser.onclick = () => {
   window.bowserjr.resultWithoutObject = [];
 }
 
-function pdfLogify(elementTag) {
+function pdfLogify() {
   const pdfLogs = document.createElement("div");
-  let pdfLogsDiv;
+  pdfLogs.setAttribute("id", "pdfLogs");
+  //pdfLogs.setAttribute("hidden", "true");
+  document.body.appendChild(pdfLogs);
 
-  for (let i = 0; i < window.bowserjr.result.length; i++) {
-    let message = window.bowserjr.result[i];
-    let messageWithoutObject = window.bowserjr.resultWithoutObject[i];
+  for (let i = 0; i < window.bowserjr.resultExport.length; i++) {
+    let message = window.bowserjr.resultExport[i];
+    let messageWithoutObject = window.bowserjr.resultWithoutObjectExport[i];
 
     let paragraphy = document.createElement("p");
     paragraphy.setAttribute("class", "content")
@@ -230,9 +233,8 @@ function pdfLogify(elementTag) {
     let divQsWrapper = document.createElement("div");
     divQsWrapper.setAttribute("class", "qsWrapper");
 
-    let tableQueryString = document.createElement(elementTag);
+    let tableQueryString = document.createElement("table");
     tableQueryString.setAttribute("class", "queryString");
-    tableQueryString.setAttribute("style", "list-style: none;");
 
     let sectionSucessfuly = document.createElement("section");
     sectionSucessfuly.setAttribute("class", "sucessfuly");
@@ -246,7 +248,7 @@ function pdfLogify(elementTag) {
       let label = document.createElement("hr");
       label.setAttribute("class", labelType);
       divTrack.setAttribute("class", trackType);
-      divLogs.appendChild(divTrack);
+      pdfLogs.appendChild(divTrack);
       divTrack.appendChild(label);
       divTrack.appendChild(section);
       section.appendChild(paragraphy);
@@ -262,89 +264,120 @@ function pdfLogify(elementTag) {
       creatingLabels("label warn", "track exception", sectionErro);
     }
 
-    function treatmentPDF(event, objName, index) {
+    function treatment(event, objName, index, doc) {
       let keys = Object.keys(event); // Get the keys in the object.
+      let keyCount = 0;
+      let valueCount = 0;
+      let booleanAux = true;
 
       keys.forEach((key) => {
         if (message.includes(`"${key}"`)) keyCount++;
-        if (Array.isArray(event[key]) || typeof event[key] == "object") { valueCount++ }
-        else if (typeof event[key] == "number") {
-          if (message.includes(`"${key}":${event[key]},`) || message.includes(`"${key}":${event[key]}}`)) { valueCount++ }
-        } else if (message.includes(`"${key}":"${event[key]}",`) || message.includes(`"${key}":"${event[key]}"}`)) { valueCount++ }
+        if (Array.isArray(event[key]) || typeof event[key] == "object") {
+          valueCount++;
+        } else if (typeof event[key] == "number") {
+          if (message.includes(`"${key}":${event[key]},`) || message.includes(`"${key}":${event[key]}}`)) {
+            valueCount++;
+          }
+        } else if (message.includes(`"${key}":"${event[key]}",`) || message.includes(`"${key}":"${event[key]}"}`)) {
+          valueCount++;
+        }
       });
 
       // Verify if all keys are included in the message.
       if (keys.length == keyCount && keys.length == valueCount) {
         keys.forEach((key) => {
-          let logLine = document.createElement("p");
-
+          let tableLine = document.createElement("tr");
           if (message.includes("WARNING") && messageWithoutObject.includes(key)) {
-            logLine.setAttribute("id", "warning");
+            tableLine.setAttribute("id", "warning");
           }
 
+          let tableKey = document.createElement("td");
+          tableKey.setAttribute("class", "key");
           let keyText = index || index === 0 ? objName + "[" + index + "]" + "." + key : objName + "." + key;
-          logLine.appendChild(document.createTextNode(keyText));
+          tableKey.appendChild(document.createTextNode(keyText));
+          tableLine.appendChild(tableKey); // Write the Key in the line
+
+          let tableValue = document.createElement("td");
+          tableValue.setAttribute("class", "value");
 
           if (Array.isArray(event[key])) {
-            logLine.innerText += ": Array[ ]";
-            queryString.appendChild(logLine); // Write the Line in the table.
+            tableValue.appendChild(document.createTextNode("Array[ ]"));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
             for (let i = 0; i < event[key].length; i++) {
-              if (!treatmentPDF(event[key][i], keyText, i)) {
+              if (!treatment(event[key][i], keyText, i)) {
                 booleanAux = false;
                 for (let index = 0; index < keys.length; index++) {
-                  queryString.deleteRow(0);
+                  tableQueryString.deleteRow(0);
                 }
               }
             };
           } else if (typeof event[key] == "object") { // Verify if the event[key] was an object.
-            logLine.innerText += ": Object{ }";
-            queryString.appendChild(logLine); // Write the Line in the table.
-            if (!treatmentPDF(event[key], keyText)) {
+            tableValue.appendChild(document.createTextNode("Object{ }"));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+            if (!treatment(event[key], keyText)) {
               booleanAux = false;
               for (let index = 0; index < keys.length; index++) {
                 tableQueryString.deleteRow(0);
               }
             }
           } else if (typeof event[key] == "string") {
-            logLine.innerText += ': "' + event[key] + '"';
-            queryString.appendChild(logLine); // Write the Line in the table.
+            tableValue.appendChild(document.createTextNode('"' + event[key] + '"'));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
           } else {
-            logLine.innerText += event[key];
-            queryString.appendChild(logLine); // Write the Line in the table.
+            tableValue.appendChild(document.createTextNode(event[key]));
+            tableLine.appendChild(tableValue); // Write the Value in the line.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.
           }
+
         });
-        return {
-          pdf: pdfLogs,
-          bool: booleanAux
-        };
+        return booleanAux;
       };
+      return false;
     };
+
     for (let index in window[inputDataLayerName.value]) {
-      let treatmentResult = treatmentPDF(window[inputDataLayerName.value][index], "", null);
-      if (treatmentResult.bool) {
-        pdfLogsDiv = treatmentResult.pdf;
-        break;
-      }
+      if (treatment(window[inputDataLayerName.value][index], "")) { break }
     };
+
   };
-  return pdfLogsDiv;
 }
 
 btnExportLogs.onclick = () => {
   let filename = `results_${new Date().getTime()}.pdf`;
-  let fullResult = pdfLogify("div");
-  const doc = new jsPDF();
+  pdfLogify();
+  const doc = new window.jsPDF('p', 'pt', 'letter');
 
-  let specialElementHandlers = {
+  /*html2canvas($("#pdfLogs")[0], {
+    onclone: function(canvas) {
+      window.bowserjr.canvas = canvas;
+      var imgData = canvas.toDataURL('image/png');
+      console.log('Report Image URL: '+imgData);
+      const doc = new jsPDF('p', 'pt', 'letter');
+      
+      doc.addImage(canvas, 'PNG', 10, 10);
+      doc.save(filename);
+    }
+  });*/
+
+  let canvasPDF = html2canvas($("#pdfLogs")[0]).then(function(canvas) {
+    document.body.appendChild(canvas);
+  });
+
+  /*let specialElementHandlers = {
     "#export": function (element, renderer) {
       return false;
     }
-  };
+  };*/
 
-  doc.fromHTML(fullResult, 15, 15, {
+  /*doc.fromHTML(fullResult, 15, 15, {
     'width': 170,
     'elementHandlers': specialElementHandlers
-  });
+  });*/
+
+  doc.addImage(canvasPDF, 'PNG', 10, 10);
 
   // Save the PDF
   doc.save(filename);
