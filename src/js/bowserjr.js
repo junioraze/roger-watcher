@@ -218,7 +218,7 @@ btnStopBowser.onclick = () => {
 function pdfLogify() {
   const pdfLogs = document.createElement("div");
   pdfLogs.setAttribute("id", "pdfLogs");
-  //pdfLogs.setAttribute("hidden", "true");
+  pdfLogs.setAttribute("hidden", "true");
   document.body.appendChild(pdfLogs);
 
   for (let i = 0; i < window.bowserjr.resultExport.length; i++) {
