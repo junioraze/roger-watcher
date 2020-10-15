@@ -544,7 +544,6 @@ btnExportLogs.onclick = () => {
   //pdfLogify();
 
   for(var i = 0; i < $(".qsWrapper").length; i++) {
-    console.log("qsWarpper: ", $(".qsWrapper")[i]);
     $(".qsWrapper")[i].style = "display: inline";
   }
 
