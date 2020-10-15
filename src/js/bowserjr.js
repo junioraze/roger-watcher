@@ -541,7 +541,13 @@ function pdfLogify() {
 // };
 
 btnExportLogs.onclick = () => {
-  pdfLogify();
+  //pdfLogify();
+
+  for(var i = 0; i < $(".qsWrapper").length; i++) {
+    console.log("qsWarpper: ", $(".qsWrapper")[i]);
+    $(".qsWrapper")[i].style = "display: inline";
+  }
+
   var logsPDF = document.querySelector('#logs');
   html2canvas(logsPDF).then(function (canvas) {
     // document.body.appendChild(canvas);
@@ -550,7 +556,7 @@ btnExportLogs.onclick = () => {
     var data = new Date();
     doc.text(90, 10, 'BowserJR.');
 
-    doc.addImage(imgdata, 'PNG', 5, 20, 200, 40);
+    doc.addImage(imgdata, 'JPG', 5, 20, 300, 900, null, "FAST", 180);
     doc.save(
       'BowserJR. - ' +
         data.getDate() +
@@ -561,6 +567,10 @@ btnExportLogs.onclick = () => {
         '.pdf'
     );
   });
+
+  for(var i = 0; i < $(".qsWrapper").length; i++) {
+    $(".qsWrapper")[i].style = "display: none";
+  }
 };
 
 // When the user clicks on the button, open the modal
