@@ -1,3 +1,19 @@
+const RW = {
+  panel: jQuery('#panel'),
+  busca: jQuery('#busca'),
+  info: {
+    name: 'Dev',
+    version: 'X.X.X'
+  },
+  util: {
+    sub: () => {}
+  },
+  clear() {
+    jQuery('.track').remove();
+    this.busca.val('');
+  }
+};
+
 jQuery('.filter').on('click', 'a', function () {
   jQuery(this).closest('li').toggleClass('checked');
   RW.panel

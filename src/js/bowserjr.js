@@ -19,6 +19,11 @@ window.bowserjr.result = [];
 window.bowserjr.resultExport = [];
 window.bowserjr.resultWithoutObject = [];
 window.bowserjr.resultWithoutObjectExport = [];
+window.bowserjr.count = {
+  successful: 0,
+  error: 0,
+  warning: 0,
+};
 window.bowserjr.validateObject = validateObject;
 window.bowserjr.validateObject
   ? console.log('Yay! BowserJR Loaded!')
@@ -32,9 +37,18 @@ const btnStartBowser = document.getElementById('startTest');
 const btnStopBowser = document.getElementById('stopTest');
 const btnExportLogs = document.getElementById('export');
 const btnLudwig = document.getElementById('ludwigBtn');
+const pageURL = document.getElementById('pageURL');
+const browser = document.getElementById('browser');
+const validationDate = document.getElementById('validationDate');
+const successfulData = document.getElementById('successfulData');
+const warningData = document.getElementById('warningData');
+const errorData = document.getElementById('errorData');
 
 const modalContent = document.getElementById('myModal');
 const btnModalClose = document.getElementsByClassName('close')[0];
+
+pageURL.innerHTML += " " + window.location.href;
+browser.innerHTML += " " + window.navigator.appVersion;
 
 let dlObj = [
   {
@@ -175,6 +189,7 @@ function handleFiles() {
 
 btnStartBowser.onclick = () => {
   // Verify if the dataLayer name and file exist.
+  validationDate.innerHTML += " " + Date();
   if (window.bowserjr.file && window[inputDataLayerName.value]) {
     if (!window[inputDataLayerName.value].push_c) {
       window[inputDataLayerName.value].push_c =
@@ -248,10 +263,13 @@ btnStopBowser.onclick = () => {
     }
 
     if (message.includes('Validated Successfully')) {
+      window.bowserjr.count.successful++
       creatingLabels('label ok', 'track pageview', sectionSucessfuly);
     } else if (message.includes('ERROR')) {
+      window.bowserjr.count.error++
       creatingLabels('label error', 'track erro', sectionErro);
     } else {
+      window.bowserjr.count.warning++
       creatingLabels('label warn', 'track exception', sectionErro);
     }
 
@@ -352,6 +370,10 @@ btnStopBowser.onclick = () => {
   btnStartBowser.disabled = false;
   window.bowserjr.file = false;
   inputJSONFile.value = '';
+
+  successfulData.innerHTML = window.bowserjr.count.successful;
+  warningData.innerHTML = window.bowserjr.count.warning;
+  errorData.innerHTML = window.bowserjr.count.error;
 
   window.bowserjr.result = [];
   window.bowserjr.resultWithoutObject = [];

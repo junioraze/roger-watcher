@@ -513,3 +513,15 @@ header > * {
   text-decoration: none;
   cursor: pointer;
 }
+
+#successfulData {
+  background-color: #1e9449;
+}
+
+#warningData {
+  background-color: #fbab3d;
+}
+
+#errorData {
+  background-color: red;
+}
