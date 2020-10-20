@@ -243,7 +243,7 @@ header > * {
 
 .qsWrapper {
   cursor: auto;
-  display: none;
+  display: inline;
   overflow: auto;
   max-width: 100%;
 }

@@ -47,8 +47,8 @@ const errorData = document.getElementById('errorData');
 const modalContent = document.getElementById('myModal');
 const btnModalClose = document.getElementsByClassName('close')[0];
 
-pageURL.innerHTML += " " + window.location.href;
-browser.innerHTML += " " + window.navigator.appVersion;
+pageURL.innerHTML += " " + window.location.origin;
+browser.innerHTML += "Chrome Version " + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
 
 let dlObj = [
   {
@@ -189,7 +189,7 @@ function handleFiles() {
 
 btnStartBowser.onclick = () => {
   // Verify if the dataLayer name and file exist.
-  validationDate.innerHTML += " " + Date();
+  validationDate.innerHTML = "Validation Date: " + Date();
   if (window.bowserjr.file && window[inputDataLayerName.value]) {
     if (!window[inputDataLayerName.value].push_c) {
       window[inputDataLayerName.value].push_c =
@@ -273,7 +273,7 @@ btnStopBowser.onclick = () => {
       creatingLabels('label warn', 'track exception', sectionErro);
     }
 
-    function treatment(event, objName, index, doc) {
+    function treatment(event, objName, index) {
       let keys = Object.keys(event); // Get the keys in the object.
       let keyCount = 0;
       let valueCount = 0;
@@ -379,151 +379,6 @@ btnStopBowser.onclick = () => {
   window.bowserjr.resultWithoutObject = [];
 };
 
-function pdfLogify() {
-  const pdfLogs = document.createElement('div');
-  pdfLogs.setAttribute('id', 'pdfLogs');
-  pdfLogs.setAttribute('hidden', 'true');
-  document.body.appendChild(pdfLogs);
-
-  for (let i = 0; i < window.bowserjr.resultExport.length; i++) {
-    let message = window.bowserjr.resultExport[i];
-    let messageWithoutObject = window.bowserjr.resultWithoutObjectExport[i];
-
-    let paragraphy = document.createElement('p');
-    paragraphy.setAttribute('class', 'content');
-
-    let divTrack = document.createElement('div');
-
-    let divQsWrapper = document.createElement('div');
-    divQsWrapper.setAttribute('class', 'qsWrapper');
-
-    let tableQueryString = document.createElement('table');
-    tableQueryString.setAttribute('class', 'queryString');
-
-    let sectionSucessfuly = document.createElement('section');
-    sectionSucessfuly.setAttribute('class', 'sucessfuly');
-
-    let sectionErro = document.createElement('section');
-    sectionErro.setAttribute('class', 'erro');
-
-    paragraphy.appendChild(document.createTextNode(messageWithoutObject));
-
-    function creatingLabels(labelType, trackType, section) {
-      let label = document.createElement('hr');
-      label.setAttribute('class', labelType);
-      divTrack.setAttribute('class', trackType);
-      pdfLogs.appendChild(divTrack);
-      divTrack.appendChild(label);
-      divTrack.appendChild(section);
-      section.appendChild(paragraphy);
-      section.appendChild(divQsWrapper);
-      divQsWrapper.appendChild(tableQueryString);
-    }
-
-    if (message.includes('Validated Successfully')) {
-      creatingLabels('label ok', 'track pageview', sectionSucessfuly);
-    } else if (message.includes('ERROR')) {
-      creatingLabels('label error', 'track erro', sectionErro);
-    } else {
-      creatingLabels('label warn', 'track exception', sectionErro);
-    }
-
-    function treatment(event, objName, index, doc) {
-      let keys = Object.keys(event); // Get the keys in the object.
-      let keyCount = 0;
-      let valueCount = 0;
-      let booleanAux = true;
-
-      keys.forEach((key) => {
-        if (message.includes(`"${key}"`)) keyCount++;
-        if (Array.isArray(event[key]) || typeof event[key] == 'object') {
-          valueCount++;
-        } else if (typeof event[key] == 'number') {
-          if (
-            message.includes(`"${key}":${event[key]},`) ||
-            message.includes(`"${key}":${event[key]}}`)
-          ) {
-            valueCount++;
-          }
-        } else if (
-          message.includes(`"${key}":"${event[key]}",`) ||
-          message.includes(`"${key}":"${event[key]}"}`)
-        ) {
-          valueCount++;
-        }
-      });
-
-      // Verify if all keys are included in the message.
-      if (keys.length == keyCount && keys.length == valueCount) {
-        keys.forEach((key) => {
-          let tableLine = document.createElement('tr');
-          if (
-            message.includes('WARNING') &&
-            messageWithoutObject.includes(key)
-          ) {
-            tableLine.setAttribute('id', 'warning');
-          }
-
-          let tableKey = document.createElement('td');
-          tableKey.setAttribute('class', 'key');
-          let keyText =
-            index || index === 0
-              ? objName + '[' + index + ']' + '.' + key
-              : objName + '.' + key;
-          tableKey.appendChild(document.createTextNode(keyText));
-          tableLine.appendChild(tableKey); // Write the Key in the line
-
-          let tableValue = document.createElement('td');
-          tableValue.setAttribute('class', 'value');
-
-          if (Array.isArray(event[key])) {
-            tableValue.appendChild(document.createTextNode('Array[ ]'));
-            tableLine.appendChild(tableValue); // Write the Value in the line.
-            tableQueryString.appendChild(tableLine); // Write the Line in the table.
-            for (let i = 0; i < event[key].length; i++) {
-              if (!treatment(event[key][i], keyText, i)) {
-                booleanAux = false;
-                for (let index = 0; index < keys.length; index++) {
-                  tableQueryString.deleteRow(0);
-                }
-              }
-            }
-          } else if (typeof event[key] == 'object') {
-            // Verify if the event[key] was an object.
-            tableValue.appendChild(document.createTextNode('Object{ }'));
-            tableLine.appendChild(tableValue); // Write the Value in the line.
-            tableQueryString.appendChild(tableLine); // Write the Line in the table.
-            if (!treatment(event[key], keyText)) {
-              booleanAux = false;
-              for (let index = 0; index < keys.length; index++) {
-                tableQueryString.deleteRow(0);
-              }
-            }
-          } else if (typeof event[key] == 'string') {
-            tableValue.appendChild(
-              document.createTextNode('"' + event[key] + '"')
-            );
-            tableLine.appendChild(tableValue); // Write the Value in the line.
-            tableQueryString.appendChild(tableLine); // Write the Line in the table.
-          } else {
-            tableValue.appendChild(document.createTextNode(event[key]));
-            tableLine.appendChild(tableValue); // Write the Value in the line.
-            tableQueryString.appendChild(tableLine); // Write the Line in the table.
-          }
-        });
-        return booleanAux;
-      }
-      return false;
-    }
-
-    for (let index in window[inputDataLayerName.value]) {
-      if (treatment(window[inputDataLayerName.value][index], '')) {
-        break;
-      }
-    }
-  }
-}
-
 // btnExportLogs.onclick = () => {
 //   let filename = `results_${new Date().getTime()}.pdf`;
 //   pdfLogify();
@@ -562,36 +417,100 @@ function pdfLogify() {
 //   doc.save(filename);
 // };
 
+function imprimePDF(imagens) {
+  var doc = new jsPDF();
+  
+  var tamanhoPagina = 16;
+  var auxTamanho = 0;
+  var doc = new jsPDF();
+  for (var i = 0; i < $('.track').length - 1; i++) {
+    var tamanhoAtual = $('.track')[i].offsetHeight * 0.26;
+    // se for o primeiro track, compara e adiciona direto
+    console.log("imagens: ", imagens[i], "indice: ", i);
+    if (i === 0) {
+      if (tamanhoAtual <= tamanhoPagina) {
+        console.log('add image');
+        doc.addImage(
+          imagens[i].URL,
+          'JPG',
+          5,
+          20,
+          200,
+          imagens[i].height * 0.26,
+          null,
+          'FAST',
+          180
+        );
+        auxTamanho += tamanhoAtual;
+      }
+      // se for os próximos track e estiver dentro do tamanho da página, adiciona a imagem
+    } else if (auxTamanho + tamanhoAtual < tamanhoPagina) {
+      console.log('add image');
+      doc.addImage(
+          imagens[i].URL,
+          'JPG',
+          5,
+          20,
+          200,
+          imagens[i].height * 0.26,
+          null,
+          'FAST',
+          180
+        );
+      auxTamanho += tamanhoAtual;
+      // se for maior do que o tamanho da página, adiciona uma página nova e depois add a imagem
+    } else if (auxTamanho + tamanhoAtual > tamanhoPagina) {
+      console.log('add page');
+      doc.addPage();
+      console.log('add image');
+      doc.addImage(
+          imagens[i].URL,
+          'JPG',
+          5,
+          20,
+          200,
+          imagens[i].height * 0.26,
+          null,
+          'FAST',
+          180
+        );
+      auxTamanho = $('.track')[i].offsetHeight * 0.26;
+    }
+  }
+
+  var data = new Date();
+  doc.save(
+    'BowserJR. - ' +
+      data.getDate() +
+      '-' +
+      (data.getMonth() + 1) +
+      '-' +
+      data.getFullYear() +
+      '.pdf'
+  );
+}
+
 btnExportLogs.onclick = () => {
-  //pdfLogify();
+  // for (var i = 0; i < $('.qsWrapper').length; i++) {
+  //   $('.qsWrapper')[i].style = 'display: inline';
+  // }
+  var tamanho = $(".track").length
+  var imgdata = [];
+  for(var i=0; i < tamanho; i++) {
+    html2canvas($(".track")[i]).then(function (canvas) {
+      imgdata.push({
+        URL: canvas.toDataURL('image/png'),
+        height: canvas.height
+      });
+      console.log("imgdata: ", imgdata);
+    });
+  };
 
-  for(var i = 0; i < $(".qsWrapper").length; i++) {
-    $(".qsWrapper")[i].style = "display: inline";
-  }
-
-  var logsPDF = document.querySelector('#logs');
-  html2canvas(logsPDF).then(function (canvas) {
-    // document.body.appendChild(canvas);
-    var imgdata = canvas.toDataURL('image/png');
-    var doc = new jsPDF();
-    var data = new Date();
-    doc.text(90, 10, 'BowserJR.');
-
-    doc.addImage(imgdata, 'JPG', 5, 20, 300, 900, null, "FAST", 180);
-    doc.save(
-      'BowserJR. - ' +
-        data.getDate() +
-        '-' +
-        (data.getMonth() + 1) +
-        '-' +
-        data.getFullYear() +
-        '.pdf'
-    );
-  });
-
-  for(var i = 0; i < $(".qsWrapper").length; i++) {
-    $(".qsWrapper")[i].style = "display: none";
-  }
+  imprimePDF(imgdata);
+  
+  // for (var i = 0; i < $('.qsWrapper').length; i++) {
+  //   $('.qsWrapper')[i].style = 'display: none';
+  // }
 };
 
 // When the user clicks on the button, open the modal
