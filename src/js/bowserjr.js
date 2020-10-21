@@ -347,7 +347,7 @@ btnStopBowser.onclick = () => {
 
 function imprimePDF(imagens) {
   var doc = new jsPDF();
-  var tamanhoPagina = 300;
+  var tamanhoPagina = 267;
   var auxTamanho = 0;
   var doc = new jsPDF();
 
@@ -356,15 +356,18 @@ function imprimePDF(imagens) {
     var imagemAtual = imagens[i];
     if (i === 0) {
       if (tamanhoAtual <= tamanhoPagina) {
-        doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
+        console.log("primeira imagem: ", tamanhoAtual)
+        doc.addImage(imagemAtual, 'JPG', 5, 20, 300, tamanhoAtual, null, 'FAST', 180);
         auxTamanho += tamanhoAtual + 20;
       }
     } else if (auxTamanho + tamanhoAtual < tamanhoPagina) {
-      doc.addImage(imagemAtual, 'JPG', 5, auxTamanho + 2, 200, tamanhoAtual, null, 'FAST', 180);
+      console.log("imagens seguintes: ", auxTamanho, " - ", tamanhoAtual)
+      doc.addImage(imagemAtual, 'JPG', 5, auxTamanho + 2, 300, tamanhoAtual, null, 'FAST', 180);
       auxTamanho += tamanhoAtual;
     } else if (auxTamanho + tamanhoAtual > tamanhoPagina) {
       doc.addPage();
-      doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
+      console.log("imagens que não couberam: ", tamanhoAtual);
+      doc.addImage(imagemAtual, 'JPG', 5, 20, 300, tamanhoAtual, null, 'FAST', 180);
       auxTamanho = tamanhoAtual;
     }
   }
@@ -378,10 +381,15 @@ btnExportLogs.onclick = async () => {
   //   $('.qsWrapper')[i].style = 'display: inline';
   // }
 
-  var tamanho = $('.track').length;
   var imgdata = [];
 
-  for (var i = 0; i < 13; i++) {
+  await html2canvas($("#logHeader")[0]).then(function (canvas) {
+    imgdata.push(canvas.toDataURL('image/png'));
+  });
+
+  var tamanho = $('.track').length;
+
+  for (var i = 0; i < tamanho; i++) {
     var track = $('.track')[i];
 
     await html2canvas(track).then(function (canvas) {
