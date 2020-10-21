@@ -1,19 +1,5 @@
 import validateObject from './ajv.js';
-//import schema from "./lib/teste.js";
-//var file;
 
-/*
-const windowTab = () => {
-  chrome.windows.getCurrent(function (currentWindow) {
-    let windowID = currentWindow.id;
-    chrome.windows.get(windowID, function (call) {
-      console.log(call)
-    });
-  });
-}
-
-windowTab()
-*/
 window.bowserjr = {};
 window.bowserjr.result = [];
 window.bowserjr.resultExport = [];
@@ -25,10 +11,9 @@ window.bowserjr.count = {
   warning: 0,
 };
 window.bowserjr.validateObject = validateObject;
-window.bowserjr.validateObject
-  ? console.log('Yay! BowserJR Loaded!')
-  : console.log("BowserJR didn't load :'( ");
+window.bowserjr.validateObject ? console.log('Yay! BowserJR Loaded!') : console.log("BowserJR didn't load :'( ");
 window.bowserjr.file;
+window.bowserjr.export = [];
 
 // Get DOM elements.
 const inputJSONFile = document.getElementById('inputFile');
@@ -47,8 +32,8 @@ const errorData = document.getElementById('errorData');
 const modalContent = document.getElementById('myModal');
 const btnModalClose = document.getElementsByClassName('close')[0];
 
-pageURL.innerHTML += " " + window.location.origin;
-browser.innerHTML += "Chrome Version " + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+pageURL.innerHTML += ' ' + window.location.origin;
+browser.innerHTML += 'Chrome Version ' + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
 
 let dlObj = [
   {
@@ -75,8 +60,7 @@ let dlObj = [
       url: 'https://www.extra.com.br/site/paginavitrinenew.aspx',
       nomePagina: '/vitrine/home',
       templatePagina: 'home',
-      tituloPagina:
-        'extracombr o site da familia e a maior loja de informatica do brasil',
+      tituloPagina: 'extracombr o site da familia e a maior loja de informatica do brasil',
     },
   },
   {
@@ -189,11 +173,10 @@ function handleFiles() {
 
 btnStartBowser.onclick = () => {
   // Verify if the dataLayer name and file exist.
-  validationDate.innerHTML = "Validation Date: " + Date();
+  validationDate.innerHTML = 'Validation Date: ' + Date();
   if (window.bowserjr.file && window[inputDataLayerName.value]) {
     if (!window[inputDataLayerName.value].push_c) {
-      window[inputDataLayerName.value].push_c =
-        window[inputDataLayerName.value].push;
+      window[inputDataLayerName.value].push_c = window[inputDataLayerName.value].push;
       window[inputDataLayerName.value].push = (obj) => {
         window[inputDataLayerName.value].push_c(obj);
         validateObject(window.file, obj);
@@ -208,8 +191,7 @@ btnStartBowser.onclick = () => {
     btnStartBowser.disabled = true;
     btnStopBowser.disabled = false;
   } else {
-    if (!window[inputDataLayerName.value])
-      alert("The entered dataLayer doesn't exist");
+    if (!window[inputDataLayerName.value]) alert("The entered dataLayer doesn't exist");
     alert('Enter the name of the dataLayer and upload the file');
   }
 };
@@ -218,9 +200,7 @@ btnStartBowser.onclick = () => {
 btnStopBowser.onclick = () => {
   validateObject(window.file, {});
   btnStopBowser.disabled = true;
-  window.bowserjr.resultExport = window.bowserjr.resultExport.concat(
-    window.bowserjr.result
-  );
+  window.bowserjr.resultExport = window.bowserjr.resultExport.concat(window.bowserjr.result);
   window.bowserjr.resultWithoutObjectExport = window.bowserjr.resultWithoutObjectExport.concat(
     window.bowserjr.resultWithoutObject
   );
@@ -263,13 +243,13 @@ btnStopBowser.onclick = () => {
     }
 
     if (message.includes('Validated Successfully')) {
-      window.bowserjr.count.successful++
+      window.bowserjr.count.successful++;
       creatingLabels('label ok', 'track pageview', sectionSucessfuly);
     } else if (message.includes('ERROR')) {
-      window.bowserjr.count.error++
+      window.bowserjr.count.error++;
       creatingLabels('label error', 'track erro', sectionErro);
     } else {
-      window.bowserjr.count.warning++
+      window.bowserjr.count.warning++;
       creatingLabels('label warn', 'track exception', sectionErro);
     }
 
@@ -284,16 +264,10 @@ btnStopBowser.onclick = () => {
         if (Array.isArray(event[key]) || typeof event[key] == 'object') {
           valueCount++;
         } else if (typeof event[key] == 'number') {
-          if (
-            message.includes(`"${key}":${event[key]},`) ||
-            message.includes(`"${key}":${event[key]}}`)
-          ) {
+          if (message.includes(`"${key}":${event[key]},`) || message.includes(`"${key}":${event[key]}}`)) {
             valueCount++;
           }
-        } else if (
-          message.includes(`"${key}":"${event[key]}",`) ||
-          message.includes(`"${key}":"${event[key]}"}`)
-        ) {
+        } else if (message.includes(`"${key}":"${event[key]}",`) || message.includes(`"${key}":"${event[key]}"}`)) {
           valueCount++;
         }
       });
@@ -302,19 +276,13 @@ btnStopBowser.onclick = () => {
       if (keys.length == keyCount && keys.length == valueCount) {
         keys.forEach((key) => {
           let tableLine = document.createElement('tr');
-          if (
-            message.includes('WARNING') &&
-            messageWithoutObject.includes(key)
-          ) {
+          if (message.includes('WARNING') && messageWithoutObject.includes(key)) {
             tableLine.setAttribute('id', 'warning');
           }
 
           let tableKey = document.createElement('td');
           tableKey.setAttribute('class', 'key');
-          let keyText =
-            index || index === 0
-              ? objName + '[' + index + ']' + '.' + key
-              : objName + '.' + key;
+          let keyText = index || index === 0 ? objName + '[' + index + ']' + '.' + key : objName + '.' + key;
           tableKey.appendChild(document.createTextNode(keyText));
           tableLine.appendChild(tableKey); // Write the Key in the line
 
@@ -345,9 +313,7 @@ btnStopBowser.onclick = () => {
               }
             }
           } else if (typeof event[key] == 'string') {
-            tableValue.appendChild(
-              document.createTextNode('"' + event[key] + '"')
-            );
+            tableValue.appendChild(document.createTextNode('"' + event[key] + '"'));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
           } else {
@@ -379,135 +345,58 @@ btnStopBowser.onclick = () => {
   window.bowserjr.resultWithoutObject = [];
 };
 
-// btnExportLogs.onclick = () => {
-//   let filename = `results_${new Date().getTime()}.pdf`;
-//   pdfLogify();
-//   const doc = new window.jsPDF();
-
-//   /*html2canvas($("#pdfLogs")[0], {
-//     onclone: function(canvas) {
-//       window.bowserjr.canvas = canvas;
-//       var imgData = canvas.toDataURL('image/png');
-//       console.log('Report Image URL: '+imgData);
-//       const doc = new jsPDF('p', 'pt', 'letter');
-
-//       doc.addImage(canvas, 'PNG', 10, 10);
-//       doc.save(filename);
-//     }
-//   });*/
-
-//   let canvasPDF = html2canvas($('#pdfLogs')[0]).then(function (canvas) {
-//     document.body.appendChild(canvas);
-//   });
-
-//   /*let specialElementHandlers = {
-//     "#export": function (element, renderer) {
-//       return false;
-//     }
-//   };*/
-
-//   /*doc.fromHTML(fullResult, 15, 15, {
-//     'width': 170,
-//     'elementHandlers': specialElementHandlers
-//   });*/
-
-//   doc.addImage(canvasPDF, 'PNG', 10, 10);
-
-//   // Save the PDF
-//   doc.save(filename);
-// };
-
 function imprimePDF(imagens) {
   var doc = new jsPDF();
-  
-  var tamanhoPagina = 16;
+  var tamanhoPagina = 300;
   var auxTamanho = 0;
   var doc = new jsPDF();
-  for (var i = 0; i < $('.track').length - 1; i++) {
+
+  for (var i = 0; i < 13; i++) {
     var tamanhoAtual = $('.track')[i].offsetHeight * 0.26;
-    // se for o primeiro track, compara e adiciona direto
-    console.log("imagens: ", imagens[i], "indice: ", i);
+    var imagemAtual = imagens[i];
     if (i === 0) {
       if (tamanhoAtual <= tamanhoPagina) {
-        console.log('add image');
-        doc.addImage(
-          imagens[i].URL,
-          'JPG',
-          5,
-          20,
-          200,
-          imagens[i].height * 0.26,
-          null,
-          'FAST',
-          180
-        );
+        doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
+        doc.text('imagem: ', i);
         auxTamanho += tamanhoAtual;
       }
-      // se for os próximos track e estiver dentro do tamanho da página, adiciona a imagem
     } else if (auxTamanho + tamanhoAtual < tamanhoPagina) {
-      console.log('add image');
-      doc.addImage(
-          imagens[i].URL,
-          'JPG',
-          5,
-          20,
-          200,
-          imagens[i].height * 0.26,
-          null,
-          'FAST',
-          180
-        );
+      doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
+      doc.text('imagem: ', i);
       auxTamanho += tamanhoAtual;
-      // se for maior do que o tamanho da página, adiciona uma página nova e depois add a imagem
     } else if (auxTamanho + tamanhoAtual > tamanhoPagina) {
-      console.log('add page');
       doc.addPage();
-      console.log('add image');
-      doc.addImage(
-          imagens[i].URL,
-          'JPG',
-          5,
-          20,
-          200,
-          imagens[i].height * 0.26,
-          null,
-          'FAST',
-          180
-        );
-      auxTamanho = $('.track')[i].offsetHeight * 0.26;
+      doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
+      doc.text('imagem: ', i);
+      auxTamanho = tamanhoAtual;
     }
   }
 
   var data = new Date();
-  doc.save(
-    'BowserJR. - ' +
-      data.getDate() +
-      '-' +
-      (data.getMonth() + 1) +
-      '-' +
-      data.getFullYear() +
-      '.pdf'
-  );
+  doc.save('BowserJR. - ' + data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear() + '.pdf');
 }
 
-btnExportLogs.onclick = () => {
+btnExportLogs.onclick = async () => {
   // for (var i = 0; i < $('.qsWrapper').length; i++) {
   //   $('.qsWrapper')[i].style = 'display: inline';
   // }
-  var tamanho = $(".track").length
-  var imgdata = [];
-  for(var i=0; i < tamanho; i++) {
-    html2canvas($(".track")[i]).then(function (canvas) {
-      imgdata.push({
-        URL: canvas.toDataURL('image/png'),
-        height: canvas.height
-      });
-      console.log("imgdata: ", imgdata);
-    });
-  };
 
+  var tamanho = $('.track').length;
+  var imgdata = [];
+
+  for (var i = 0; i < 13; i++) {
+    var track = $('.track')[i];
+
+    await html2canvas(track).then(function (canvas) {
+      imgdata.push(canvas.toDataURL('image/png'));
+    });
+  }
+
+  // setTimeout(1000, function () {
+  //   console.log('executou o timeout');
   imprimePDF(imgdata);
-  
+  // });
+
   // for (var i = 0; i < $('.qsWrapper').length; i++) {
   //   $('.qsWrapper')[i].style = 'display: none';
   // }
