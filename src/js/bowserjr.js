@@ -352,22 +352,19 @@ function imprimePDF(imagens) {
   var doc = new jsPDF();
 
   for (var i = 0; i < 13; i++) {
-    var tamanhoAtual = $('.track')[i].offsetHeight * 0.26;
+    var tamanhoAtual = $('.track')[i].offsetHeight * 0.25;
     var imagemAtual = imagens[i];
     if (i === 0) {
       if (tamanhoAtual <= tamanhoPagina) {
         doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
-        doc.text('imagem: ', i);
-        auxTamanho += tamanhoAtual;
+        auxTamanho += tamanhoAtual + 20;
       }
     } else if (auxTamanho + tamanhoAtual < tamanhoPagina) {
-      doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
-      doc.text('imagem: ', i);
+      doc.addImage(imagemAtual, 'JPG', 5, auxTamanho + 2, 200, tamanhoAtual, null, 'FAST', 180);
       auxTamanho += tamanhoAtual;
     } else if (auxTamanho + tamanhoAtual > tamanhoPagina) {
       doc.addPage();
       doc.addImage(imagemAtual, 'JPG', 5, 20, 200, tamanhoAtual, null, 'FAST', 180);
-      doc.text('imagem: ', i);
       auxTamanho = tamanhoAtual;
     }
   }
@@ -392,10 +389,7 @@ btnExportLogs.onclick = async () => {
     });
   }
 
-  // setTimeout(1000, function () {
-  //   console.log('executou o timeout');
   imprimePDF(imgdata);
-  // });
 
   // for (var i = 0; i < $('.qsWrapper').length; i++) {
   //   $('.qsWrapper')[i].style = 'display: none';
