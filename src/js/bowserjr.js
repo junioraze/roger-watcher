@@ -23,6 +23,7 @@ const btnStopBowser = document.getElementById('stopTest');
 const btnExportLogs = document.getElementById('export');
 const btnLudwig = document.getElementById('ludwigBtn');
 
+const headerDOM = document.querySelector('#log-header');
 const pageURL = document.querySelector('.page-info');
 const browser = document.querySelector('.browser-info');
 const validationDate = document.querySelector('.date-info');
@@ -35,6 +36,11 @@ const btnModalClose = document.getElementsByClassName('close')[0];
 
 pageURL.innerHTML = window.location.origin;
 browser.innerHTML = 'Chrome Version ' + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+
+var doc = new jsPDF();
+var accSizeContent = 0;
+var data = new Date();
+var today = data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear();
 
 let dlObj = [
   {
@@ -347,63 +353,60 @@ btnStopBowser.onclick = () => {
   window.bowserjr.resultWithoutObject = [];
 };
 
-function imprimePDF(imagens) {
-  var doc = new jsPDF();
-  var tamanhoPagina = 267;
-  var auxTamanho = 0;
-  var doc = new jsPDF();
+btnExportLogs.onclick = async () => {
+  var arrayURLImg = [];
+  var header;
+  const tracks = $('.track');
+  const contentTracks = $('.qsWrapper');
 
-  for (var i = 0; i < 13; i++) {
-    var tamanhoAtual = $('.track')[i].offsetHeight * 0.25;
-    var imagemAtual = imagens[i];
-    if (i === 0) {
-      if (tamanhoAtual <= tamanhoPagina) {
-        console.log("primeira imagem: ", tamanhoAtual)
-        doc.addImage(imagemAtual, 'JPG', 5, 20, 300, tamanhoAtual, null, 'FAST', 180);
-        auxTamanho += tamanhoAtual + 20;
-      }
-    } else if (auxTamanho + tamanhoAtual < tamanhoPagina) {
-      console.log("imagens seguintes: ", auxTamanho, " - ", tamanhoAtual)
-      doc.addImage(imagemAtual, 'JPG', 5, auxTamanho + 2, 300, tamanhoAtual, null, 'FAST', 180);
-      auxTamanho += tamanhoAtual;
-    } else if (auxTamanho + tamanhoAtual > tamanhoPagina) {
-      doc.addPage();
-      console.log("imagens que não couberam: ", tamanhoAtual);
-      doc.addImage(imagemAtual, 'JPG', 5, 20, 300, tamanhoAtual, null, 'FAST', 180);
-      auxTamanho = tamanhoAtual;
-    }
+  for (var i = 0; i < contentTracks.length; i++) {
+    contentTracks[i].style = 'display: inline';
   }
 
-  var data = new Date();
-  doc.save('BowserJR. - ' + data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear() + '.pdf');
-}
-
-btnExportLogs.onclick = async () => {
-  // for (var i = 0; i < $('.qsWrapper').length; i++) {
-  //   $('.qsWrapper')[i].style = 'display: inline';
-  // }
-
-  var imgdata = [];
-
-  await html2canvas($("#log-header")[0]).then(function (canvas) {
-    imgdata.push(canvas.toDataURL('image/png'));
+  await html2canvas(headerDOM).then(function (canvas) {
+    header = canvas.toDataURL('image/png');
   });
 
-  var tamanho = $('.track').length;
-
-  for (var i = 0; i < tamanho; i++) {
-    var track = $('.track')[i];
-
-    await html2canvas(track).then(function (canvas) {
-      imgdata.push(canvas.toDataURL('image/png'));
+  for (var i = 0; i < tracks.length; i++) {
+    await html2canvas(tracks[i]).then(function (canvas) {
+      arrayURLImg.push(canvas.toDataURL('image/png'));
     });
   }
 
-  imprimePDF(imgdata);
+  createPDF(arrayURLImg, header, tracks);
 
-  // for (var i = 0; i < $('.qsWrapper').length; i++) {
-  //   $('.qsWrapper')[i].style = 'display: none';
-  // }
+  doc = new jsPDF();
+
+  for (var i = 0; i < contentTracks.length; i++) {
+    contentTracks[i].style = 'display: none';
+  }
+};
+
+const createPDF = (arrayURLImgTracks, headerURLImg, tracks) => {
+  var pageSize = 267;
+
+  for (var i = 0; i < tracks.length; i++) {
+    var currImageSize = tracks[i].offsetHeight * 0.25;
+    var currImage = arrayURLImgTracks[i];
+
+    if (i === 0 && currImageSize <= pageSize) {
+      addImageJSPDF(headerURLImg, 5, 40);
+      addImageJSPDF(currImage, 50, currImageSize);
+    } else if (accSizeContent + currImageSize < pageSize) {
+      addImageJSPDF(currImage, accSizeContent + 5, currImageSize);
+    } else {
+      doc.addPage();
+      addImageJSPDF(currImage, 5, currImageSize);
+      accSizeContent = currImageSize;
+    }
+  }
+
+  doc.save('BowserJR. - ' + today + '.pdf');
+};
+
+const addImageJSPDF = (img, verticalPosition, height) => {
+  doc.addImage(img, 'JPEG', 5, verticalPosition, 300, height, null, 'FAST', 180);
+  accSizeContent += height;
 };
 
 // When the user clicks on the button, open the modal
