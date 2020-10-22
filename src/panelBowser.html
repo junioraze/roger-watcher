@@ -125,25 +125,46 @@
 	<section id="panel">
 
 		<div id="logs">
-			<div id="logHeader">
-				<img src="./icons/icon48.png" alt="">Roger Watcher - Bowser Jr</img><br>
-				<img src="./img/bowser-btn-img.png" alt="">DataLayer Validation Result</img>
-				<p id="pageURL">Page: </p>
-				<p id="browser">Browser: </p>
-				<p id="validationDate">Validation Date: </p>
-				<table id="countTable">
-					<tr>
-						<th colspan="3">Status</th>
+			<div id="log-header">
+				<table id="logo-table">
+					<tr class="logo-row">
+						<td class="logo-data logo-image"><img src="./icons/icon48.png" class="logo"></td>
+						<td class="logo-data logo-text"><span class="logo-title">Roger Watcher - Bowser Jr</span></td>
 					</tr>
-					<tr>
-						<td id="successfulTitle">Successful</td>
-						<td id="warningTitle">Warning</td>
-						<td id="errorTitle">Error</td>
+					<tr class="logo-row">
+						<td class="logo-data logo-image"><img src="./img/bowser-btn-img.png" class="logo"></td>
+						<td class="logo-data logo-text"><span class="logo-title">DataLayer Validation Result</span></td>
 					</tr>
-					<tr>
-						<td id="successfulData">0</td>
-						<td id="warningData">0</td>
-						<td id="errorData">0</td>
+				</table>
+
+				<table id="header-info">
+					<tr class="info-row">
+						<td class="info-data page-url page-field">Domain: </td>
+						<td class="info-data page-url page-info"></td>
+					</tr>
+					<tr class="info-row">
+						<td class="info-data browser browser-field">Browser: </td>
+						<td class="info-data browser browser-info"></td>
+					</tr>
+					<tr class="info-row">
+						<td class="info-data validation-date date-field">Validation Date: </td>
+						<td class="info-data validation-date date-info"></td>
+					</tr>
+				</table>
+
+				<table id="count-table">
+					<tr class="count-row">
+						<th colspan="3" class="count-data count-data-header">Status</th>
+					</tr>
+					<tr class="count-row">
+						<td id="successful-title" class="count-data">Successful</td>
+						<td id="warning-title" class="count-data">Warning</td>
+						<td id="error-title" class="count-data">Error</td>
+					</tr>
+					<tr class="count-row">
+						<td id="successful-data" class="count-data">0</td>
+						<td id="warning-data" class="count-data">0</td>
+						<td id="error-data" class="count-data">0</td>
 					</tr>
 				</table>
 			</div>

@@ -22,18 +22,19 @@ const btnStartBowser = document.getElementById('startTest');
 const btnStopBowser = document.getElementById('stopTest');
 const btnExportLogs = document.getElementById('export');
 const btnLudwig = document.getElementById('ludwigBtn');
-const pageURL = document.getElementById('pageURL');
-const browser = document.getElementById('browser');
-const validationDate = document.getElementById('validationDate');
-const successfulData = document.getElementById('successfulData');
-const warningData = document.getElementById('warningData');
-const errorData = document.getElementById('errorData');
+
+const pageURL = document.querySelector('.page-info');
+const browser = document.querySelector('.browser-info');
+const validationDate = document.querySelector('.date-info');
+const successfulData = document.querySelector('#successful-data');
+const warningData = document.querySelector('#warning-data');
+const errorData = document.querySelector('#error-data');
 
 const modalContent = document.getElementById('myModal');
 const btnModalClose = document.getElementsByClassName('close')[0];
 
-pageURL.innerHTML += ' ' + window.location.origin;
-browser.innerHTML += 'Chrome Version ' + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+pageURL.innerHTML = window.location.origin;
+browser.innerHTML = 'Chrome Version ' + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
 
 let dlObj = [
   {
@@ -173,13 +174,14 @@ function handleFiles() {
 
 btnStartBowser.onclick = () => {
   // Verify if the dataLayer name and file exist.
-  validationDate.innerHTML = 'Validation Date: ' + Date();
   if (window.bowserjr.file && window[inputDataLayerName.value]) {
     if (!window[inputDataLayerName.value].push_c) {
       window[inputDataLayerName.value].push_c = window[inputDataLayerName.value].push;
       window[inputDataLayerName.value].push = (obj) => {
         window[inputDataLayerName.value].push_c(obj);
         validateObject(window.file, obj);
+        var data = new Date();
+        validationDate.innerHTML = data.getDate() + '/' + (data.getMonth() + 1) + '/' + data.getFullYear();
       };
     }
     // Events are sent to the dataLayer.
@@ -383,7 +385,7 @@ btnExportLogs.onclick = async () => {
 
   var imgdata = [];
 
-  await html2canvas($("#logHeader")[0]).then(function (canvas) {
+  await html2canvas($("#log-header")[0]).then(function (canvas) {
     imgdata.push(canvas.toDataURL('image/png'));
   });
 

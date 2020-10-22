@@ -514,14 +514,60 @@ header > * {
   cursor: pointer;
 }
 
-#successfulData {
+.logo {
+  border-radius: 4px;
+  padding: 5px;
+  width: 30px;
+}
+
+.logo-image {
+  text-align: right;
+  width: 25px;
+}
+
+.logo-title {
+  font-size: medium;
+  margin-left: 10px;
+  width: 500px;
+}
+
+.logo-data {
+  vertical-align: middle;
+}
+
+.info-data {
+  padding: 5px;
+  text-align: left;
+  font-size: x-small;
+}
+
+#count-table {
+  width: 30%;
+  padding: 15px;
+  margin-left: 10px;
+  margin-bottom: 15px;
+  border-collapse: collapse;
+}
+
+.count-data-header {
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+#successful-data {
   background-color: #1e9449;
+  padding-left: 2px;
+  width: 100px;
 }
 
-#warningData {
+#warning-data {
   background-color: #fbab3d;
+  padding-left: 2px;
+  width: 100px;
 }
 
-#errorData {
+#error-data {
   background-color: red;
+  padding-left: 2px;
+  width: 100px;
 }
