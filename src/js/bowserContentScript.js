@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           JSON.stringify(event.data.datalayer_object)
       );
   
-      chrome.runtime.sendMessage("magjphhapdpbfcklchopnbieeklfehho",{
+      chrome.runtime.sendMessage("ADDICIONAR O SEU ID DA EXTENSÃO",{
         message: "accepted",
         datalayer_object: event.data.datalayer_object,
       },function(response){});

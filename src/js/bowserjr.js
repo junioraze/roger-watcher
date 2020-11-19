@@ -4,6 +4,7 @@ import validateObject from "./ajv.js";
 
 
 window.bowserjr = {};
+window.bowserjr.dataLayer = [];
 window.bowserjr.result = [];
 window.bowserjr.resultExport = [];
 window.bowserjr.resultWithoutObject = [];
@@ -22,7 +23,7 @@ window.bowserjr.export = [];
 
 //Chrome runtime methods
 
-chrome.tabs.query({active: true}, function(tabs) {
+chrome.tabs.query({ active: true }, function (tabs) {
   let tab = tabs[0];
   chrome.tabs.executeScript(tab.id, {
     file: 'js/bowserContentScript.js'
@@ -35,9 +36,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log(request.datalayer_object);
     console.log(window.bowserjr.file);
     window.bowserjr.validateObject(window.bowserjr.file, request.datalayer_object);
-   }
- });
- 
+    window.bowserjr.dataLayer.push(request.datalayer_object);
+  }
+});
+
 
 // Get DOM elements.
 const inputJSONFile = document.getElementById("inputFile");
@@ -221,30 +223,30 @@ btnStartBowser.onclick = () => {
           (data.getMonth() + 1) +
           "/" +
           data.getFullYear();
-        btnStartBowser.disabled = true;
-        btnStopBowser.disabled = false;
       }
     }
   );
-  };
-  // Verify if the dataLayer name and file exist.
-  // if (window.bowserjr.file && window[inputDataLayerName.value]) {
-  //   if (!window[inputDataLayerName.value].push_c) {
-  //     window[inputDataLayerName.value].push_c =
-  //       window[inputDataLayerName.value].push;
-  //     window[inputDataLayerName.value].push = (obj) => {
-  //       window[inputDataLayerName.value].push_c(obj);
-  //       validateObject(window.file, obj);
-  //     };
-  //   }
-    // Events are sent to the dataLayer.
-    // dlObj.forEach((event) => {
-    //   window[inputDataLayerName.value].push(event);
-    // });
+  btnStartBowser.disabled = true;
+  btnStopBowser.disabled = false;
+};
+// Verify if the dataLayer name and file exist.
+// if (window.bowserjr.file && window[inputDataLayerName.value]) {
+//   if (!window[inputDataLayerName.value].push_c) {
+//     window[inputDataLayerName.value].push_c =
+//       window[inputDataLayerName.value].push;
+//     window[inputDataLayerName.value].push = (obj) => {
+//       window[inputDataLayerName.value].push_c(obj);
+//       validateObject(window.file, obj);
+//     };
+//   }
+// Events are sent to the dataLayer.
+// dlObj.forEach((event) => {
+//   window[inputDataLayerName.value].push(event);
+// });
 
-    // After clicked on the start button, the button will be hidden.
- 
- 
+// After clicked on the start button, the button will be hidden.
+
+
 //   } else {
 //     if (!window[inputDataLayerName.value])
 //       alert("The entered dataLayer doesn't exist");
@@ -310,7 +312,6 @@ btnStopBowser.onclick = () => {
       window.bowserjr.count.warning++;
       creatingLabels("label warn", "track exception", sectionErro);
     }
-
     function treatment(event, objName, index) {
       let keys = Object.keys(event); // Get the keys in the object.
       let keyCount = 0;
@@ -399,8 +400,8 @@ btnStopBowser.onclick = () => {
       return false;
     }
 
-    for (let index in window[inputDataLayerName.value]) {
-      if (treatment(window[inputDataLayerName.value][index], "")) {
+    for (let index in window.bowserjr.dataLayer) {
+      if (treatment(window.bowserjr.dataLayer[index], "")) {
         break;
       }
     }
@@ -413,6 +414,7 @@ btnStopBowser.onclick = () => {
   warningData.innerHTML = window.bowserjr.count.warning;
   errorData.innerHTML = window.bowserjr.count.error;
 
+  window.bowserjr.dataLayer = []
   window.bowserjr.result = [];
   window.bowserjr.resultWithoutObject = [];
 };
