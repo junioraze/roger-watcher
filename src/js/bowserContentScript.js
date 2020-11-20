@@ -6,7 +6,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         window["${request.datalayer}"].forEach(elem=>{
           window.postMessage({
             dataLayer:"dispatch_datalayer_object_from_window",
-            datalayer_object:JSON.parse(JSON.stringify(elem))
+            datalayer_object:JSON.parse(JSON.stringify(elem)),
+            url: window.origin
           },"*");
         });
   
@@ -40,9 +41,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           JSON.stringify(event.data.datalayer_object)
       );
   
-      chrome.runtime.sendMessage("ADDICIONAR O SEU ID DA EXTENSÃO",{
+      chrome.runtime.sendMessage("oigelofjcjfbegbeckbpjglkkmnmibbo",{
         message: "accepted",
         datalayer_object: event.data.datalayer_object,
+        url: event.data.url,
       },function(response){});
     }
   });

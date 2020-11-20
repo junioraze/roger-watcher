@@ -21,22 +21,15 @@ window.bowserjr.validateObject
 window.bowserjr.file;
 window.bowserjr.export = [];
 
-//Chrome runtime methods
 
-chrome.tabs.query({ active: true }, function (tabs) {
-  let tab = tabs[0];
-  chrome.tabs.executeScript(tab.id, {
-    file: 'js/bowserContentScript.js'
-  });
-  console.log("Executed contentScript");
-});
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message == "accepted") {
-    console.log(request.datalayer_object);
-    console.log(window.bowserjr.file);
+    //console.log(request.datalayer_object);
+    //console.log(window.bowserjr.file);
     window.bowserjr.validateObject(window.bowserjr.file, request.datalayer_object);
     window.bowserjr.dataLayer.push(request.datalayer_object);
+    window.bowserjr.pageUrl = request.url;
   }
 });
 
@@ -204,30 +197,50 @@ function handleFiles() {
       alert("Select a JSON file to proceed!");
       btnStartBowser.disabled = true;
     }
-  };
-}
+  }
+};
 
 btnStartBowser.onclick = () => {
-  chrome.runtime.sendMessage(
-    {
-      message: "background_bowser_script",
-      dataLayerName: inputDataLayerName.value,
-    },
-    function (response) {
-      console.log(response);
-      if (response.message == "teste_ok") {
-        var data = new Date();
-        validationDate.innerHTML =
-          data.getDate() +
-          "/" +
-          (data.getMonth() + 1) +
-          "/" +
-          data.getFullYear();
+
+  // Verify if the dataLayer name and file exist.
+  if (window.bowserjr.file) {
+
+    //Chrome runtime methods
+    chrome.tabs.query({ active: true }, function (tabs) {
+      let tab = tabs[0];
+      chrome.tabs.executeScript(tab.id, {
+        file: 'js/bowserContentScript.js'
+      });
+      console.log("Executed contentScript");
+    });
+
+    chrome.runtime.sendMessage(
+      {
+        message: "background_bowser_script",
+        dataLayerName: inputDataLayerName.value,
+      },
+      function (response) {
+        console.log(response);
+        if (response.message == "teste_ok") {
+          var data = new Date();
+          validationDate.innerHTML =
+            data.getDate() +
+            "/" +
+            (data.getMonth() + 1) +
+            "/" +
+            data.getFullYear();
+        }
       }
-    }
-  );
-  btnStartBowser.disabled = true;
-  btnStopBowser.disabled = false;
+    );
+
+    btnStartBowser.disabled = true;
+    btnStopBowser.disabled = false;
+
+  } else {
+
+    alert("Carregue o schema antes de iniciar a validação.");
+
+  }
 };
 // Verify if the dataLayer name and file exist.
 // if (window.bowserjr.file && window[inputDataLayerName.value]) {
@@ -264,6 +277,11 @@ btnStopBowser.onclick = () => {
   window.bowserjr.resultWithoutObjectExport = window.bowserjr.resultWithoutObjectExport.concat(
     window.bowserjr.resultWithoutObject
   );
+
+  let urlParagraphy = document.createElement('p');
+  urlParagraphy.appendChild(document.createTextNode(window.bowserjr.pageUrl));
+  urlParagraphy.setAttribute("class","historyChange");
+  document.getElementById("logs").appendChild(urlParagraphy);
 
   for (let i = 0; i < window.bowserjr.result.length; i++) {
     let message = window.bowserjr.result[i];

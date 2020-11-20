@@ -243,7 +243,7 @@ header > * {
 
 .qsWrapper {
   cursor: auto;
-  display: inline;
+  display: none;
   overflow: auto;
   max-width: 100%;
 }
@@ -570,4 +570,9 @@ header > * {
   background-color: red;
   padding-left: 2px;
   width: 100px;
+}
+
+.historyChange {
+  margin-left: 15px;
+  font-size: larger;
 }
