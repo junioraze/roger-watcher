@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             window.postMessage({
               dataLayer:"dispatch_datalayer_object_from_window",
               datalayer_object:JSON.parse(JSON.stringify(elem)),
-              url: window.origin
+              url: window.location.href
             },"*");
           });
           console.log("DataLayer Name sent from Background Script: ${request.datalayer}");
@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             window.postMessage({
               dataLayer:"dispatch_datalayer_object_from_window",
               datalayer_object:obj,
-              url: window.origin
+              url: window.location.href
             },"*");
           }
       };`;

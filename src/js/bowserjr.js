@@ -60,8 +60,7 @@ browser.innerHTML =
 var doc = new jsPDF();
 var accSizeContent = 0;
 var data = new Date();
-var today =
-  data.getDate() + "-" + (data.getMonth() + 1) + "-" + data.getFullYear();
+var today = data.getDate() + "-" + (data.getMonth() + 1) + "-" + data.getFullYear();
 
 let dlObj = [
   {
@@ -269,6 +268,8 @@ btnStartBowser.onclick = () => {
 
 // When clicked in the stop button, the arrow function will do the last eval and verify if some event was forgotten.
 btnStopBowser.onclick = () => {
+  /* Set domain. */
+  pageURL.innerHTML = window.bowserjr.pageUrl;
   validateObject(window.file, {});
   btnStopBowser.disabled = true;
   window.bowserjr.resultExport = window.bowserjr.resultExport.concat(
@@ -280,7 +281,7 @@ btnStopBowser.onclick = () => {
 
   let urlParagraphy = document.createElement('p');
   urlParagraphy.appendChild(document.createTextNode(window.bowserjr.pageUrl));
-  urlParagraphy.setAttribute("class","historyChange");
+  urlParagraphy.setAttribute("class", "historyChange");
   document.getElementById("logs").appendChild(urlParagraphy);
 
   for (let i = 0; i < window.bowserjr.result.length; i++) {
@@ -330,14 +331,18 @@ btnStopBowser.onclick = () => {
       window.bowserjr.count.warning++;
       creatingLabels("label warn", "track exception", sectionErro);
     }
+
     function treatment(event, objName, index) {
-      let keys = Object.keys(event); // Get the keys in the object.
+      let eventKeys = Object.keys(event); // Get the eventKeys in the object.
       let keyCount = 0;
       let valueCount = 0;
       let booleanAux = true;
 
-      keys.forEach((key) => {
+      eventKeys.forEach((key) => {
+        /* Verify if the event key is in the message.  */
         if (message.includes(`"${key}"`)) keyCount++;
+
+        /* Verify if the event value is in the message with the respective key. */
         if (Array.isArray(event[key]) || typeof event[key] == "object") {
           valueCount++;
         } else if (typeof event[key] == "number") {
@@ -353,16 +358,19 @@ btnStopBowser.onclick = () => {
         ) {
           valueCount++;
         }
+
       });
 
-      // Verify if all keys are included in the message.
-      if (keys.length == keyCount && keys.length == valueCount) {
-        keys.forEach((key) => {
+      /* Verify if all event keys and event values are included in the message. */
+      if (eventKeys.length == keyCount && eventKeys.length == valueCount) {
+
+        eventKeys.forEach((key) => {
           let tableLine = document.createElement("tr");
           if (
             message.includes("WARNING") &&
             messageWithoutObject.includes(key)
           ) {
+            /* Paint the property that has the incorrect value. */
             tableLine.setAttribute("id", "warning");
           }
 
@@ -370,8 +378,8 @@ btnStopBowser.onclick = () => {
           tableKey.setAttribute("class", "key");
           let keyText =
             index || index === 0
-              ? objName + "[" + index + "]" + "." + key
-              : objName + "." + key;
+              ? `${objName}[${index}].${key}`
+              : `${objName}.${key}`;
           tableKey.appendChild(document.createTextNode(keyText));
           tableLine.appendChild(tableKey); // Write the Key in the line
 
@@ -381,30 +389,27 @@ btnStopBowser.onclick = () => {
           if (Array.isArray(event[key])) {
             tableValue.appendChild(document.createTextNode("Array[ ]"));
             tableLine.appendChild(tableValue); // Write the Value in the line.
-            tableQueryString.appendChild(tableLine); // Write the Line in the table.
+            tableQueryString.appendChild(tableLine); // Write the Line in the table.               
             for (let i = 0; i < event[key].length; i++) {
               if (!treatment(event[key][i], keyText, i)) {
                 booleanAux = false;
-                for (let index = 0; index < keys.length; index++) {
+                for (let index = 0; index < eventKeys.length; index++) {
                   tableQueryString.deleteRow(0);
                 }
               }
             }
           } else if (typeof event[key] == "object") {
-            // Verify if the event[key] was an object.
             tableValue.appendChild(document.createTextNode("Object{ }"));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
             if (!treatment(event[key], keyText)) {
               booleanAux = false;
-              for (let index = 0; index < keys.length; index++) {
+              for (let index = 0; index < eventKeys.length; index++) {
                 tableQueryString.deleteRow(0);
               }
             }
           } else if (typeof event[key] == "string") {
-            tableValue.appendChild(
-              document.createTextNode('"' + event[key] + '"')
-            );
+            tableValue.appendChild(document.createTextNode(`"${event[key]}"`));
             tableLine.appendChild(tableValue); // Write the Value in the line.
             tableQueryString.appendChild(tableLine); // Write the Line in the table.
           } else {
@@ -418,10 +423,10 @@ btnStopBowser.onclick = () => {
       return false;
     }
 
+    /* For each message generated by ajv.js, we will make a verify with the events in dataLayer. */
     for (let index in window.bowserjr.dataLayer) {
-      if (treatment(window.bowserjr.dataLayer[index], "")) {
-        break;
-      }
+      /* If the message matches an event, the function treatment returns true and gets out the for. */
+      if (treatment(window.bowserjr.dataLayer[index], "")) break;
     }
   }
   btnStartBowser.disabled = false;
