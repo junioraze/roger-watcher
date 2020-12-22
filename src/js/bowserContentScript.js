@@ -40,7 +40,7 @@ window.addEventListener("message", function (event) {
       JSON.stringify(event.data.datalayer_object)
     );
 
-    chrome.runtime.sendMessage("oigelofjcjfbegbeckbpjglkkmnmibbo", {
+    chrome.runtime.sendMessage("neifgmplhjkpbaeipdocmbifhbajieij", {
       message: "accepted",
       datalayer_object: event.data.datalayer_object,
       url: event.data.url,

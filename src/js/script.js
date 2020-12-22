@@ -195,3 +195,5 @@ chrome.webRequest.onBeforeRequest.addListener(
   ['requestBody']
 );
 //chrome.devtools.network.onRequestFinished.addListener();
+
+export default RW

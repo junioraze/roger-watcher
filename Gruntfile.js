@@ -20,7 +20,13 @@ module.exports = (grunt) => {
           },
           {
             from: /<!-- @dev-jsbowser [\s\S]*? dev-jsbowser@ -->/gim,
-            to: '<script src="js/jquery.js"></script><script src="js/jspdf.min.js"/><script src="js/html2canvas.js"/><script src="js/allbowserjr.js"></script><script type="module" src="js/bowserjr.js"></script><script type="module" src="js/ajv.js"></script><script type="module" src="js/schema_parser.js"></script>',
+            to: `<script src="js/jquery.js"></script>
+            <script src="js/jspdf.min.js"/>
+            <script src="js/html2canvas.js"/>
+            <script src="js/allbowserjr.js">
+            </script><script type="module" src="js/bowserjr.js">
+            </script><script type="module" src="js/ajv.js">
+            </script><script type="module" src="js/schema_parser.js"></script>`,
           },
         ],
       },
@@ -44,13 +50,14 @@ module.exports = (grunt) => {
             'src/js/metadata.js',
             'src/js/script.js',
             'src/js/eventos.js',
-            'src/js/tagueamento.js',
+            'src/js/tagueamentoBowser.js',
           ],
           'dist/js/allbowserjr.js': [
             // 'src/js/ajv.min.js',
             'src/js/scriptsBowser.js',
             'src/js/eventos.js',
             'src/js/ludwig.js',
+            'src/js/tagueamentoBowser.js'
           ],
           'dist/js/devtools.js': 'src/js/devtools.js',
           'dist/js/jspdf.min.js':'src/js/jspdf.min.js',

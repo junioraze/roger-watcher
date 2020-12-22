@@ -1,3 +1,8 @@
+import RW from './scriptsBowser.js'
+
+console.log('entrei')
+console.log(RW)
+
 class Tracker {
   constructor(id) {
     this.id = id;
