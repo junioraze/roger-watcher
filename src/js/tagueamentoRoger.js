@@ -1,3 +1,4 @@
+import RW from './script.js'
 class Tracker {
   constructor(id) {
     this.id = id;

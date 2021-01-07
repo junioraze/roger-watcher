@@ -9,3 +9,5 @@ plugin-fabinho/
 node_modules/
 dist/
 *.sublime*
+test.json
+teste.json
