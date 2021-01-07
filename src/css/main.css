@@ -1,0 +1,233 @@
+nav {
+  background-color: #f8f8f8;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  height: 0;
+  display: inline-block;
+  position: fixed;
+  z-index: 1000;
+}
+
+#panel {
+  padding-top: 80px;
+}
+
+body {
+  background-color: #f8f8f8;
+}
+
+.navbar-gradient {
+  background-image: linear-gradient(to right, #6bba11, #275aee, #f38427);
+}
+
+.navbar-gradient .indeterminate {
+  background-color: rgba(248, 248, 248, 0);
+}
+
+.navbar-gradient .indeterminate {
+  background-color: rgba(248, 248, 248, 0.5);
+}
+
+.qswrapper {
+  background-color: #ffffff;
+  height: 30px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  color: #626262;
+}
+
+.qswrapper:nth-child(3) {
+  border: 1px 1px 1px 1px solid #ececec;
+  border-radius: 0px 5px 5px 0px;
+  padding-left: 10px;
+}
+
+.qswrapper:nth-child(1) {
+  border: 1px 1px 1px 1px solid #ececec;
+  border-radius: 5px 0px 0px 5px;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.qswrapper.pageview {
+  background-image: url(../img/ico-pageview.png);
+}
+
+.qswrapper.event {
+  background-image: url(../img/ico-event.png);
+}
+
+.qswrapper.timing {
+  background-image: url(../img/ico-timing.png);
+}
+
+.transaction {
+  background-image: url(../img/ico-transaction.png);
+}
+
+.logs {
+  margin: 0 10px 10px 10px;
+}
+
+.logs .row.track,
+.row {
+  margin-bottom: 5px;
+}
+
+.label {
+  height: 2px;
+  border-radius: 0px 10px 0px 10px;
+}
+.label.ok {
+  background-image: linear-gradient(to right, #2dc413, #0d5003);
+}
+
+.label.error {
+  background-image: linear-gradient(to right, #ff0e0e, #940808);
+}
+
+.qswrapper.delete {
+  background-image: url(../img/ico-del.png);
+  background-size: 0px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.qswrapper:hover {
+  background-size: 15px;
+}
+
+.icon_roger-watcher {
+  display: inline-block;
+}
+
+.icon_roger-watcher {
+  background-image: url(../icons/icon48.png);
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.icon_bowser {
+  background-image: url(../img/bowser-btn-img.png);
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.icon_start {
+  background-image: url(../img/startTest.png);
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.icon_stop {
+  background-image: url(../img/stop-button.png);
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.icon_upload {
+  background-image: url(../img/inputFile.png);
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.icon_search {
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+.icon_filters {
+  background-image: url(../img/filter.png);
+  height: 100%;
+  width: 50px;
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+}
+
+.icon_search a,
+.icon_bowser a,
+.icon_filters a,
+.icon_stop a,
+.icon_start a,
+.icon_upload a {
+  color: rgba(0, 0, 0, 0);
+}
+
+.icon_roger-watcher a {
+  color: rgba(0, 0, 0, 0);
+}
+
+table {
+  display: none;
+}
+
+table.tracktable tr:nth-child(odd) {
+  background-color: #fcfcfca2;
+  border: none;
+}
+
+table.tracktable tr:nth-child(even) {
+  background-color: #dadada;
+  border: none;
+}
+
+table td {
+  padding: 7px;
+}
+
+.key {
+  color: #555555;
+  font-weight: bold;
+}
+
+.value {
+  color: #7e7e7e;
+  font-weight: 400;
+}
+
+.tracktable {
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 5px 5px 5px 5px;
+}
+
+.pageview,
+.event {
+  border: none;
+}
+
+.nav-wrapper img {
+  width: 20px;
+}
+
+.input-field .btn {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  shadow: none;
+  box-shadow: none;
+}
+
+.material-icons {
+  color: rgb(87, 87, 87);
+}
+
+.btn-search.btn {
+  width: 100px;
+}

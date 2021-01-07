@@ -26,14 +26,7 @@ header > * {
   bottom: 0;
   width: 100%;
   height: 2px;
-  background-image: linear-gradient(
-    to right,
-    #fcc441 0%,
-    #1a71a9 19%,
-    #1a71a9 43%,
-    #1e9449 59%,
-    #1e9449 100%
-  );
+  background-image: linear-gradient(to right, #fcc441 0%, #1a71a9 19%, #1a71a9 43%, #1e9449 59%, #1e9449 100%);
 }
 
 #warning {
@@ -186,13 +179,7 @@ header > * {
   margin: 0 3% -3px;
   height: 3px;
   border-radius: 0 10px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.2),
-    transparent 10%,
-    transparent 80%,
-    rgba(0, 0, 0, 0.3)
-  );
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent 10%, transparent 80%, rgba(0, 0, 0, 0.3));
   background-color: #1b9ed5;
 }
 
@@ -234,7 +221,7 @@ header > * {
   top: 4px;
   width: 24px;
   height: 18px;
-  background-color: #f5f5f5;
+  background-color: #d40505;
   background-size: 16px;
   background-position: center center;
   background-repeat: no-repeat;
@@ -405,8 +392,8 @@ header > * {
 }
 
 #export:disabled {
-	cursor: default;
-	opacity: 0.5;
+  cursor: default;
+  opacity: 0.5;
 }
 
 #startTest:not(:disabled):hover,
