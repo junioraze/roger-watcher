@@ -13,30 +13,30 @@
 </head>
 
 <body>
-    <nav>
+    <nav id="nav-bowser">
         <div class="nav-wrapper">
             <ul class="left nav-buttons">
                 <li>
                     <a href="panel_roger.html" class="logo-dp6"><i class="material-icons"><img src="icons/icon128.png"
 								id="logo-dp6" /></i></a>
                 </li>
-                <li class="add-filter" >
-                    <i class="material-icons center-align" >
+                <li class="add-filter">
+                    <i class="material-icons center-align">
                         <a class="modal-trigger" href="#">
                             <img src="img/filter-add.svg" id="add-filter" />
                         </a>
                     </i>
-                    <i class="material-icons center-align hide " style="display: inline-block">
+                    <i class="material-icons center-align hide" style="display: inline-block">
                         <a class="modal-trigger" href="#">
                             check_circle
                         </a>
                     </i>
-                    <i class="material-icons center-align hide " style="display: inline-block">
+                    <i class="material-icons center-align hide" style="display: inline-block">
                         <a class="modal-trigger" href="#">
                             warning
                         </a>
                     </i>
-                    <i class="material-icons center-align hide " style="display: inline-block">
+                    <i class="material-icons center-align hide" style="display: inline-block">
                         <a class="modal-trigger" href="#">
                             error
                         </a>
@@ -453,7 +453,7 @@
                     <a href="#!" class="modal-close waves-effect orange-text text-darken-2 orange lighten-5 btn waves-orange" id="stopTest"><i class="material-icons left">stop</i>Stop</a>
                 </div>
             </div>
-            <div id="myModal" class="modal" >
+            <div id="myModal" class="modal">
 
                 <!-- Modal content -->
                 <div class="modal-content">
@@ -465,7 +465,7 @@
 
                             <br>
 
-                            <div class="input-field col s12" >
+                            <div class="input-field col s12">
                                 <select name="type" id="type">
                                     <option value="object">Object</option>
                                     <option value="array">Array</option>
@@ -480,20 +480,20 @@
 
                             <br>
 
-                            <div class="input-field col s12" >
+                            <div class="input-field col s12">
                                 <select name="validation" id="validation" disabled=true>
                                     <option value="equals">equals</option>
                                     <option value="regex-match">regex_match</option>
                                 </select>
                             </div>
-                            
 
-                            <input placeholder="Condition"  type="text" name="condition" id="condition" disabled=true>
 
-                       
+                            <input placeholder="Condition" type="text" name="condition" id="condition" disabled=true>
+
+
                             <br>
-                            
-                            <div class="input-field col s12" >
+
+                            <div class="input-field col s12">
                                 <select id="mode">
                                     <option value="required">Required</option>
                                     <option value="non-required">Non Required</option>
@@ -504,7 +504,7 @@
 
                             <a class="waves-effect waves-light btn-small" id="confirm"><i class="material-icons ">check</i></a>
                             <a class="waves-effect waves-light btn-small" id="end"><i class="material-icons ">clear</i></a>
-                            
+
                             <br>
 
                             <div class="input-field col s12" id="schema">
@@ -513,9 +513,9 @@
                                 </select>
                             </div>
 
-                            
+
                             <br>
-                            
+
                             <a class="waves-effect waves-light btn-small" id="export-json"><i class="material-icons ">check</i>Export JSON</a>
                             <a class="waves-effect waves-light btn-small" id="use-in-page"><i class="material-icons ">clear</i>Use JSON</a>
                     </div>
@@ -540,7 +540,8 @@
         <script type="module" src="js/main.js"></script>
         <!-- <script type="module" src="js/tagueamentoBowser.js"></script>     -->
         <!-- dev-jsbowser@ -->
-        <script>    var elems = document.querySelectorAll('select');
+        <script>
+            var elems = document.querySelectorAll('select');
             var instances = M.FormSelect.init(elems);
         </script>
     </div>
