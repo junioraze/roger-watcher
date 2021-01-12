@@ -36,13 +36,13 @@ jQuery("#search-icon").on('click', () => {
     jQuery("#search-icon").toggleClass('checked');
 });
 
-jQuery('li.add-filter i')[0].on('click', () => {
+jQuery('li.add-filter i').on('click', () => {
 
     var optionFilter = document.querySelector('.add-filter');
     var className;
     var filterCount;
 
-    filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 11;
+    filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 19;
 
     if (optionFilter.className.indexOf('active-filter') === -1) {
         optionFilter.setAttribute('class', 'add-filter active-filter');
