@@ -77,7 +77,7 @@ function createProperty(obj, levelKeyName) {
             break;
     }
 
-    console.log(jsonSchema)
+    // console.log(jsonSchema)
     keyName.value = "";
     condition.value = "";
 
@@ -111,14 +111,14 @@ function verification() {
 };
 
 confirm.addEventListener("click", () => {
-    console.log(selectProperties.value)
+    // console.log(selectProperties.value)
     verification();
 });
 
 addEvent.addEventListener("click", () => {
     jsonSchema.push(objAux);
     objAux = { type: "object", properties: {}, required: [] };
-    
+
     let fullResult
 
     fullResult = {
@@ -128,15 +128,15 @@ addEvent.addEventListener("click", () => {
             "$id": "#/properties/schema",
             "type": "array",
             "items": [
-        
+
             ]
         }
     }
 
-    for (var prop of jsonSchema){
+    for (var prop of jsonSchema) {
         fullResult.array.items.push(prop);
     };
-    
+
     window.bowserjr.jsonSchema = fullResult;
 
     while (selectProperties.length != 1) {
@@ -145,7 +145,7 @@ addEvent.addEventListener("click", () => {
 });
 
 buttonExport.addEventListener("click", () => {
-    if(!window.bowserjr.jsonSchema) {
+    if (!window.bowserjr.jsonSchema) {
         alert("É necessário primeiro criar um schema.");
     } else {
         let filename = `jsonSchema_${new Date().getTime()}.json`;

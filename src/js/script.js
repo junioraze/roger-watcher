@@ -181,7 +181,6 @@ const RW = (function() {
     }
 
     function collapse() {
-        console.log('collapse');
         var elem = document.querySelectorAll('.collapsible.expandable');
         var instance = M.Collapsible.init(elem, {
             accordion: false,
@@ -214,4 +213,4 @@ chrome.webRequest.onBeforeRequest.addListener(
 );
 //chrome.devtools.network.onRequestFinished.addListener();
 
-export default RW
+export default RW;

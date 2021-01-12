@@ -4,10 +4,11 @@
 <head>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!--Import materialize.css-->
+    <!-- @dev-css -->
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
-    <link type="text/css" rel="stylesheet" href="css/new.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="css/main.css" media="screen,projection" />
 
+    <!-- dev-css@ -->
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -43,10 +44,10 @@
                 </i>
                 </li>
                 <li>
-                    <i class="material-icons center-align"><a class="modal-trigger" href="#modal1">file_upload</a></i>
+                    <i class="material-icons center-align"><a class="modal-trigger" href="#modal-upload-file">file_upload</a></i>
                 </li>
                 <li>
-                    <i class="material-icons center-align"><a class="modal-trigger" href="#myModal"
+                    <i class="material-icons center-align"><a class="modal-trigger" href="#modal-create-schema"
           id="ludwigBtn">create</a></i>
                 </li>
                 <li id="export" class="hide">
@@ -58,8 +59,16 @@
                 </li>
             </ul>
             <ul class="right nav-buttons">
-                <li>
-                    <i class="material-icons center-align">search</i>
+                <li id="search-input">
+                    <form>
+                        <div class="input-field">
+                            <input placeholder="Search..." type="text" id="busca">
+                        </div>
+                    </form>
+                </li>
+
+                <li id="search-icon">
+                    <i class="material-icons center-align search"><a href="#">search</a><a></a></i>
                 </li>
             </ul>
         </div>
@@ -114,152 +123,148 @@
                     </tr>
                 </table>
             </div>
-            <div id="modals">
-                <div id="modal1" class="modal modal-fixed-footer" style="top: 25%;">
-                    <div class="progress navbar-gradient">
-                        <div class="determinate"></div>
-                    </div>
-                    <div class="modal-content">
-                        <h4 class="center-align">Upload File</h4>
-                        <div class="row center-align">
-                            <form class="col s12">
-                                <div class="row">
-                                    <!-- <div class="input-field col s12">
-                    <input type="text" id="autocomplete-input" class="autocomplete">
-                    <label for="autocomplete-input">Autocomplete</label>
-                  </div> -->
+        </div>
+        <div id="modals">
+            <div id="modal-upload-file" class="modal modal-fixed-footer" style="top: 25%;">
+                <div class="progress navbar-gradient">
+                    <div class="determinate"></div>
+                </div>
+                <div class="modal-content">
+                    <h4 class="center-align">Upload File</h4>
+                    <div class="row center-align">
+                        <form class="col s12 m12 l12">
+                            <div class="row">
+                                <!-- <div class="input-field col s12">
+                <input type="text" id="autocomplete-input" class="autocomplete">
+                <label for="autocomplete-input">Autocomplete</label>
+              </div> -->
 
-                                    <div class="input-field col s12">
-                                        <input placeholder="Insert name of data layer" id="inputDataLayerName" type="text" class="autocomplete">
-                                        <!-- <label for="first_name">Data Layer Name</label> -->
-                                    </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <input placeholder="Insert name of data layer" id="inputDataLayerName" type="text" class="autocomplete">
+                                    <!-- <label for="first_name">Data Layer Name</label> -->
                                 </div>
 
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <div class="file-field input-field">
-                                            <div class="btn right orange darken-2">
-                                                <span>File</span>
-                                                <input type="file" id="inputFile" multiple accept=".json"></input>
-                                            </div>
-                                            <div class="file-path-wrapper">
-                                                <input class="file-path validate" type="text" placeholder="Upload your json file">
-                                            </div>
+                                <div class="input-field col s12 m12 l6">
+                                    <div class="file-field input-field">
+                                        <div class="btn right orange darken-2">
+                                            <span>File</span>
+                                            <input type="file" id="inputFile" multiple accept=".json"></input>
+                                        </div>
+                                        <div class="file-path-wrapper">
+                                            <input class="file-path validate" type="text" placeholder="Upload your json file">
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-close orange-text text-darken-2 orange lighten-5 btn"><i class="material-icons left">close</i>Close</a>
-                        <a href="#modal2" class="modal-close modal-trigger waves-effect orange-text text-darken-2 orange lighten-5 btn waves-orange disabled" id="startTest"><i class="material-icons left">play_arrow</i>Start</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div id="modal2" class="modal modal-fixed-footer">
-                    <div class="progress navbar-gradient">
-                        <div class="indeterminate"></div>
-                    </div>
-                    <div class="modal-content">
-                        <h4 class="center-align">Validating...</h4>
-
-
-                    </div>
-                    <div class="modal-footer center-align">
-                        <!-- <a href="#!" class="modal-close orange-text text-darken-2 orange lighten-5 btn"><i class="material-icons left">close</i>Cancel</a> -->
-                        <a href="#!" class="modal-close waves-effect orange-text text-darken-2 orange lighten-5 btn waves-orange" id="stopTest"><i class="material-icons left">stop</i>Stop</a> </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close orange-text text-darken-2 orange lighten-5 btn"><i class="material-icons left">close</i>Close</a>
+                    <a href="#modal-validating" class="modal-close modal-trigger waves-effect orange-text text-darken-2 orange lighten-5 btn waves-orange disabled" id="startTest"><i class="material-icons left">play_arrow</i>Start</a>
                 </div>
-                <div id="myModal" class="modal">
+            </div>
+            <div id="modal-validating" class="modal modal-fixed-footer">
+                <div class="progress navbar-gradient">
+                    <div class="indeterminate"></div>
+                </div>
+                <div class="modal-content">
+                    <h4 class="center-align">Validating...</h4>
 
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                        <!-- Ludwig -->
-                        <div id="ludwig">
-                            <h5 class="title-ludwig">DataLayer Generator</h1>
-
-                                <a class="waves-effect waves-light btn-small" id="add-event"><i class="material-icons right">add_circle</i>Add Event</a>
-
-                                <br>
-
-                                <div class="input-field col s12">
-                                    <select name="type" id="type">
-                              <option value="object">Object</option>
-                              <option value="array">Array</option>
-                              <option value="string">String</option>
-                              <option value="boolean">Boolean</option>
-                              <option value="number">Number</option>
-                          </select>
-                                </div>
-
-
-                                <input placeholder="Key Name" type="text" name="key-name" id="key-name">
-
-                                <br>
-
-                                <div class="input-field col s12">
-                                    <select name="validation" id="validation" disabled=true>
-                              <option value="equals">equals</option>
-                              <option value="regex-match">regex_match</option>
-                          </select>
-                                </div>
-
-
-                                <input placeholder="Condition" type="text" name="condition" id="condition" disabled=true>
-
-
-                                <br>
-
-                                <div class="input-field col s12">
-                                    <select id="mode">
-                              <option value="required">Required</option>
-                              <option value="non-required">Non Required</option>
-                          </select>
-                                </div>
-
-                                <br>
-
-                                <a class="waves-effect waves-light btn-small" id="confirm"><i class="material-icons ">check</i></a>
-                                <a class="waves-effect waves-light btn-small" id="end"><i class="material-icons ">clear</i></a>
-
-                                <br>
-
-                                <div class="input-field col s12" id="schema">
-                                    <select id="properties">
-                              <option value="Select an Object">Select an Object</option>
-                          </select>
-                                </div>
-
-
-                                <br>
-
-                                <a class="waves-effect waves-light btn-small" id="export-json"><i class="material-icons ">check</i>Export JSON</a>
-                                <a class="waves-effect waves-light btn-small" id="use-in-page"><i class="material-icons ">clear</i>Use JSON</a>
-                        </div>
-                        <!-- Ludwig -->
-                    </div>
-                    <!-- Modal content -->
 
                 </div>
+                <div class="modal-footer center-align">
+                    <!-- <a href="#!" class="modal-close orange-text text-darken-2 orange lighten-5 btn"><i class="material-icons left">close</i>Cancel</a> -->
+                    <a href="#!" class="modal-close waves-effect orange-text text-darken-2 orange lighten-5 btn waves-orange" id="stopTest"><i class="material-icons left">stop</i>Stop</a> </div>
+            </div>
+            <div id="modal-create-schema" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <!-- Ludwig -->
+                    <div id="ludwig">
+                        <h5 class="title-ludwig">DataLayer Generator</h1>
+
+                            <a class="waves-effect waves-light btn-small" id="add-event"><i class="material-icons right">add_circle</i>Add Event</a>
+
+                            <br>
+
+                            <div class="input-field col s12">
+                                <select name="type" id="type">
+                          <option value="object">Object</option>
+                          <option value="array">Array</option>
+                          <option value="string">String</option>
+                          <option value="boolean">Boolean</option>
+                          <option value="number">Number</option>
+                      </select>
+                            </div>
+
+
+                            <input placeholder="Key Name" type="text" name="key-name" id="key-name">
+
+                            <br>
+
+                            <div class="input-field col s12">
+                                <select name="validation" id="validation" disabled=true>
+                          <option value="equals">equals</option>
+                          <option value="regex-match">regex_match</option>
+                      </select>
+                            </div>
+
+
+                            <input placeholder="Condition" type="text" name="condition" id="condition" disabled=true>
+
+
+                            <br>
+
+                            <div class="input-field col s12">
+                                <select id="mode">
+                          <option value="required">Required</option>
+                          <option value="non-required">Non Required</option>
+                      </select>
+                            </div>
+
+                            <br>
+
+                            <a class="waves-effect waves-light btn-small" id="confirm"><i class="material-icons ">check</i></a>
+                            <a class="waves-effect waves-light btn-small" id="end"><i class="material-icons ">clear</i></a>
+
+                            <br>
+
+                            <div class="input-field col s12" id="schema">
+                                <select id="properties">
+                          <option value="Select an Object">Select an Object</option>
+                      </select>
+                            </div>
+
+
+                            <br>
+
+                            <a class="waves-effect waves-light btn-small" id="export-json"><i class="material-icons ">check</i>Export JSON</a>
+                            <a class="waves-effect waves-light btn-small" id="use-in-page"><i class="material-icons ">clear</i>Use JSON</a>
+                    </div>
+                    <!-- Ludwig -->
+                </div>
+                <!-- Modal content -->
+
             </div>
         </div>
         </div>
 
-        <!-- @dev-jsbowser -->
         <script type="text/javascript" src="js/materialize.min.js"></script>
+        <!-- @dev-jsbowser -->
         <script type="module" src="js/jquery.js"></script>
-        <script type="module" src="js/scriptsBowser.js"></script>
+        <!-- <script type="module" src="js/scriptsBowser.js"></script> -->
         <script type="module" src="js/ajv.min.js"></script>
-        <script type="module" src="js/jspdf.min.js"></script>
-        <script type="module" src="js/html2canvas.js"></script>
-        <script type="module" src="js/bowserjr.js"></script>
+        <!-- <script type="module" src="js/jspdf.min.js"></script> -->
+        <!-- <script type="module" src="js/html2canvas.js"></script> -->
         <script type="module" src="js/rules.js"></script>
         <script type="module" src="js/ludwig.js"></script>
         <script type="module" src="js/eventos.js"></script>
-        <script type="module" src="js/main.js"></script>
+        <!-- <script type="module" src="js/main.js"></script> -->
         <!-- <script type="module" src="js/tagueamentoBowser.js"></script>     -->
         <!-- dev-jsbowser@ -->
-        <script>
-        </script>
+        <script type="module" src="js/bowserjr.js"></script>
 </body>
 
 </html>
