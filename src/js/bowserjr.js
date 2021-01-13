@@ -355,6 +355,32 @@ btnStopBowser.onclick = () => {
     document.querySelector('#export').setAttribute('class', '');
 };
 
+const buttonExport = document.getElementById("export");
+buttonExport.addEventListener("click", () => {
+  let filename = `results_${new Date().getTime()}.txt`;
+  let fullResult = ""
+
+  window.bowserjr.resultExport.forEach((line) => {
+    fullResult = fullResult + line + "\n"
+  });
+
+
+  let a = document.createElement("a");
+
+  document.body.appendChild(a);
+
+  a.style = "display: none";
+
+  let blob = new Blob([fullResult], { type: "octet/stream" }),
+    url = window.URL.createObjectURL(blob);
+
+  a.href = url;
+  a.download = filename;
+  a.click();
+  window.URL.revokeObjectURL(url);
+
+});
+
 // btnExportLogs.onclick = async() => {
 //     var arrayURLImg = [];
 //     var header;
