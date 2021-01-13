@@ -298,6 +298,7 @@ i.delete:hover {
     border-radius: 34px;
     line-height: 30px;
     height: 29px;
+    display: inline-block
 }
 
 nav ul .add-filter i:nth-child(n + 2) a:hover {

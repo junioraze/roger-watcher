@@ -40,7 +40,8 @@ jQuery("#search-icon").on('click', () => {
     searchInput.toggleClass('checked');
 
     var optionFilter = document.querySelector('.add-filter');
-    var filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 11;
+    var filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 19;
+
 
 
     if (optionFilter.className.indexOf('active-filter') !== -1 && searchInput[0].className.indexOf('checked') !== -1) {
