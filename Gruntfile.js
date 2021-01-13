@@ -13,18 +13,18 @@ module.exports = (grunt) => {
                         to: '<link rel="stylesheet" type="text/css" href="css/all.css"/>',
                     },
                     {
-                        from: /<!-- @dev-js [\s\S]*? dev-js@ -->/gim,
-                        to: '<script src="js/jquery.js"></script><script src="js/all.js"></script>',
+                        from: /<!-- @dev-jsroger [\s\S]*? dev-jsroger@ -->/gim,
+                        to: `<script type="module" src="js/all.js"></script>
+                        <script type="module" src="js/allRoger.js"></script>
+                        <script type="module" src="js/ajv.min.js"></script>
+                        <script type="module" src="js/materialize.min.js"></script>`,
                     },
                     {
                         from: /<!-- @dev-jsbowser [\s\S]*? dev-jsbowser@ -->/gim,
-                        to: `<script src="js/jquery.js"></script>
-            <script src="js/jspdf.min.js"/>
-            <script src="js/html2canvas.js"/>
-            <script src="js/allbowserjr.js">
-            </script><script type="module" src="js/bowserjr.js">
-            </script><script type="module" src="js/ajv.js">
-            </script><script type="module" src="js/schema_parser.js"></script>`,
+                        to: `<script type="module" src="js/all.js"></script>
+                            <script type="module" src="js/allBowserJr.js"></script>
+                            <script type="module" src="js/ajv.min.js"></script>
+                            <script type="module" src="js/materialize.min.js"></script>`,
                     },
                 ],
             },
@@ -44,28 +44,24 @@ module.exports = (grunt) => {
             dist: {
                 files: {
                     'dist/js/all.js': [
+                        // 'src/js/materialize.min.js',
+                        'src/js/jquery.js',
+                        'src/js/eventos.js',
                         'src/js/rules.js',
+                    ],
+                    'dist/js/allBowserJr.js': [
+                        'src/js/ajv.min.js',
+                        'src/js/ludwig.js',
+                        'src/js/bowserjr.js',
+                    ],
+                    'dist/js/allRoger.js': [
                         'src/js/metadata.js',
                         'src/js/script.js',
-                        'src/js/eventos.js',
-                        'src/js/tagueamentoBowser.js',
-                    ],
-                    'dist/js/allbowserjr.js': [
-                        // 'src/js/ajv.min.js',
-                        'src/js/scriptsBowser.js',
-                        'src/js/eventos.js',
-                        'src/js/ludwig.js',
-                        'src/js/tagueamentoBowser.js'
                     ],
                     'dist/js/devtools.js': 'src/js/devtools.js',
-                    'dist/js/jspdf.min.js': 'src/js/jspdf.min.js',
-                    'dist/js/bowserjr.js': 'src/js/bowserjr.js',
-                    'dist/js/ajv.js': 'src/js/ajv.js',
-                    'dist/js/ajv.min.js': 'src/js/ajv.min.js',
                     'dist/js/schema_parser.js': 'src/js/schema_parser.js',
-                    'dist/js/bowserContentScript.js': 'src/js/bowserContentScript.js',
                     'dist/js/background.js': 'src/js/background.js',
-                    'dist/js/materialize.min.js': 'src/js/materialize.min.js',
+                    'dist/js/bowserContentScript.js': 'src/js/bowserContentScript.js',
                 },
             },
         },
@@ -83,7 +79,7 @@ module.exports = (grunt) => {
                 files: [{
                     cwd: 'src/',
                     expand: true,
-                    src: ['manifest.json', 'icons/*', 'img/*', 'js/jquery.js', 'devtools.html'],
+                    src: ['manifest.json', 'icons/*', 'img/*', 'devtools.html', 'js/ajv.js', 'js/ajv.min.js', 'js/materialize.min.js'],
                     dest: 'dist/',
                 }, ],
             },

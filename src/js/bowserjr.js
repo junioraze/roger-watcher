@@ -15,6 +15,8 @@ window.bowserjr.count = {
 window.bowserjr.validateObject = validateObject;
 // window.bowserjr.validateObject ? console.log('Yay! BowserJR Loaded!') : console.log("BowserJR didn't load :'( ");
 
+M.AutoInit();
+
 var elems = document.querySelectorAll('.autocomplete');
 var instances = M.Autocomplete.init(elems, {
     data: {
@@ -24,7 +26,6 @@ var instances = M.Autocomplete.init(elems, {
     },
 });
 
-M.AutoInit();
 
 window.bowserjr.file;
 window.bowserjr.export = [];

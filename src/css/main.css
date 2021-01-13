@@ -371,3 +371,7 @@ nav ul .add-filter i:nth-child(n + 2) a:hover {
 .nav-buttons #search-icon.checked {
     border-radius: 0px 15px 15px 0px !important;
 }
+
+.nav-buttons .add-filter i a {
+    color: rgb(56, 56, 56);
+}

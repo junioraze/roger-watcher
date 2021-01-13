@@ -32,12 +32,34 @@ jQuery('#autoscroll').on('change', function() {
 });
 
 jQuery("#search-icon").on('click', () => {
-    jQuery("#search-input").toggleClass('checked');
-    jQuery("#search-icon").toggleClass('checked');
+
+    var searchIcon = jQuery('#search-icon');
+    var searchInput = jQuery('#search-input');
+
+    searchIcon.toggleClass('checked');
+    searchInput.toggleClass('checked');
+
+    var optionFilter = document.querySelector('.add-filter');
+    var filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 11;
+
+
+    if (optionFilter.className.indexOf('active-filter') !== -1 && searchInput[0].className.indexOf('checked') !== -1) {
+        for (var i = 3; i <= filterCount; i = i + 2) {
+            var isChecked = optionFilter.childNodes[i].className.indexOf('checked') !== -1 ? ' checked' : '';
+
+            optionFilter.childNodes[i].setAttribute('class', 'material-icons center-align hide ' + isChecked);
+
+        }
+
+        optionFilter.setAttribute('class', 'add-filter');
+
+    }
+
 });
 
-jQuery('li.add-filter i')[0].on('click', () => {
 
+
+jQuery('li.add-filter i')[0].onclick = () => {
     var optionFilter = document.querySelector('.add-filter');
     var className;
     var filterCount;
@@ -53,10 +75,19 @@ jQuery('li.add-filter i')[0].on('click', () => {
     }
 
     for (var i = 3; i <= filterCount; i = i + 2) {
-        optionFilter.childNodes[i].setAttribute('class', className);
+        var isChecked = optionFilter.childNodes[i].className.indexOf('checked') !== -1 ? ' checked' : '';
+        optionFilter.childNodes[i].setAttribute('class', className + isChecked);
 
     }
-});
+
+    var inputSearch = jQuery('#search-input')[0];
+    var iconSearch = jQuery('#search-icon')[0];
+    if (inputSearch.className.indexOf('checked') !== -1) {
+        inputSearch.setAttribute('class', '');
+        iconSearch.setAttribute('class', '');
+    }
+};
+
 
 
 RW.busca.on('keyup', function() {
@@ -72,4 +103,4 @@ RW.panel.on('click', '.delete', function(e) {
     jQuery(this).closest('.track').remove();
 });
 
-RW.util.sub('newhit', () => jQuery('#busca').trigger('keyup'));
+// RW.util.sub('newhit', () => console.log('novo hit'));
