@@ -13,21 +13,22 @@ let validateObject = (schema, obj, filename) => {
     //let logsArray = [];
     //let items = schema.array.items;
     let items = window.bowserjr.file.array.items;
+
     let isSchemaEmpty = items.length === 0;
     let isObjEmpty =
         Object.entries(obj).length === 0 && obj.constructor === Object;
 
-    let saveLog = (filename, status, message, dlObject) => {
-        // console.log(`${status}, ${message}, ${dlObject}\n`);
-        //logsArray.push(`${status}, ${message}, ${dlObject}\n`);
-        // fs.appendFileSync(
-        //   filename,
-        //   `${status}, ${message}, ${dlObject}\n`,
-        //   (err) => {
-        //     if (err) throw err;
-        //   }
-        // );
-    };
+    // let saveLog = (filename, status, message, dlObject) => {
+    // console.log(`${status}, ${message}, ${dlObject}\n`);
+    //logsArray.push(`${status}, ${message}, ${dlObject}\n`);
+    // fs.appendFileSync(
+    //   filename,
+    //   `${status}, ${message}, ${dlObject}\n`,
+    //   (err) => {
+    //     if (err) throw err;
+    //   }
+    // );
+    // };
 
     let checkValidEvent = (items) => {
         for (let index = 0; index < items.length; index++) {
@@ -35,7 +36,7 @@ let validateObject = (schema, obj, filename) => {
             // console.log("datalayer: "+JSON.stringify(obj,null,2));
             let valid = ajv.validate(items[index], obj);
             if (valid) {
-                saveLog(filename, "OK", "Validated Successfully", JSON.stringify(obj));
+                // saveLog(filename, "OK", "Validated Successfully", JSON.stringify(obj));
 
                 window.bowserjr.result.push("OK, Validated Successfully" + JSON.stringify(obj));
                 window.bowserjr.resultWithoutObject.push("OK, Validated Successfully");
@@ -92,12 +93,12 @@ let validateObject = (schema, obj, filename) => {
 
 
                 if ((innerSchema.contains.required.length > 0 && !isInnerSchemaEmpty) && /*ajv.validate(innerSchema, tempObj) &&*/ Object.keys(innerSchema.contains.properties)[0] !== "event") { //essa validação tava cagada pq ele tava validando o event no nível de base e fodendo com a porra toda. Isso ainda pode ser um problema mais pra frente se alguém 
-                    saveLog(
-                        filename,
-                        "ERROR",
-                        `Hit sent without the following property: ${errorMessage.params.missingProperty}`,
-                        JSON.stringify(dlObj)
-                    );
+                    // saveLog(
+                    //     filename,
+                    //     "ERROR",
+                    //     `Hit sent without the following property: ${errorMessage.params.missingProperty}`,
+                    //     JSON.stringify(dlObj)
+                    // );
 
                     window.bowserjr.result.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} ` + JSON.stringify(dlObj));
                     window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
@@ -153,12 +154,12 @@ let validateObject = (schema, obj, filename) => {
                 let isInnerSchemaEmpty = Object.entries(innerSchema.properties).length === 0 && obj.constructor === Object; //um safe check pra garantir que o objeto não ficou vazio
 
                 if ((innerSchema.required.length > 0 && !isInnerSchemaEmpty) && /*ajv.validate(innerSchema, tempObj) &&*/ Object.keys(innerSchema.properties)[0] !== "event") { //essa validação tava cagada pq ele tava validando o event no nível de base e fodendo com a porra toda. Isso ainda pode ser um problema mais pra frente se alguém 
-                    saveLog(
-                        filename,
-                        "ERROR",
-                        `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty}`,
-                        JSON.stringify(dlObj)
-                    );
+                    // saveLog(
+                    //     filename,
+                    //     "ERROR",
+                    //     `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty}`,
+                    //     JSON.stringify(dlObj)
+                    // );
 
                     window.bowserjr.result.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} ` + JSON.stringify(dlObj));
                     window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
@@ -216,12 +217,12 @@ let validateObject = (schema, obj, filename) => {
                             errorMessage.data.constructor === Object;
 
                         if (isErrorDataEmpty) {
-                            saveLog(
-                                filename,
-                                "ERROR",
-                                `Hit sent without the following property: ${errorMessage.params.missingProperty}`,
-                                JSON.stringify(obj)
-                            );
+                            // saveLog(
+                            //     filename,
+                            //     "ERROR",
+                            //     `Hit sent without the following property: ${errorMessage.params.missingProperty}`,
+                            //     JSON.stringify(obj)
+                            // );
 
                             window.bowserjr.result.push("ERROR, " + `Hit sent without the following property: ${errorMessage.params.missingProperty}, ` + JSON.stringify(obj));
                             window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit sent without the following property: ${errorMessage.params.missingProperty}, `);
@@ -255,24 +256,24 @@ let validateObject = (schema, obj, filename) => {
                         switch (eachError.keyword) {
 
                             case "pattern":
-                                saveLog(
-                                    filename,
-                                    "WARNING",
-                                    `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}"`,
-                                    JSON.stringify(obj)
-                                );
+                                // saveLog(
+                                //     filename,
+                                //     "WARNING",
+                                //     `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}"`,
+                                //     JSON.stringify(obj)
+                                // );
 
                                 window.bowserjr.result.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}" ` + JSON.stringify(obj));
                                 window.bowserjr.resultWithoutObject.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}" `);
                                 break;
 
                             case "enum":
-                                saveLog(
-                                    filename,
-                                    "WARNING",
-                                    `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}"`,
-                                    JSON.stringify(obj)
-                                );
+                                // saveLog(
+                                //     filename,
+                                //     "WARNING",
+                                //     `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}"`,
+                                //     JSON.stringify(obj)
+                                // );
 
                                 window.bowserjr.result.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}" ` + JSON.stringify(obj));
                                 window.bowserjr.resultWithoutObject.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}" `);
@@ -280,12 +281,12 @@ let validateObject = (schema, obj, filename) => {
                                 break;
 
                             case "type":
-                                saveLog(
-                                    filename,
-                                    "WARNING",
-                                    `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}"`,
-                                    JSON.stringify(obj)
-                                );
+                                // saveLog(
+                                //     filename,
+                                //     "WARNING",
+                                //     `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}"`,
+                                //     JSON.stringify(obj)
+                                // );
 
                                 window.bowserjr.result.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}" ` + JSON.stringify(obj));
                                 window.bowserjr.resultWithoutObject.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}" `);
@@ -306,12 +307,12 @@ let validateObject = (schema, obj, filename) => {
     let checkMissingEvents = (items, obj) => {
         let missingEvents = parseToDataLayer(items);
         missingEvents.map((event) => {
-            saveLog(
-                filename,
-                "ERROR",
-                `Hit not validated or missed during test`,
-                JSON.stringify(event)
-            );
+            // saveLog(
+            //     filename,
+            //     "ERROR",
+            //     `Hit not validated or missed during test`,
+            //     JSON.stringify(event)
+            // );
 
             window.bowserjr.result.push("ERROR, " + `Hit not validated or missed during test ` + JSON.stringify(event));
             window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit not validated or missed during test `);
@@ -320,12 +321,12 @@ let validateObject = (schema, obj, filename) => {
     };
 
     if (isSchemaEmpty) {
-        saveLog(
-            filename,
-            "ERROR",
-            `No more items to validate`,
-            JSON.stringify(obj)
-        );
+        // saveLog(
+        //     filename,
+        //     "ERROR",
+        //     `No more items to validate`,
+        //     JSON.stringify(obj)
+        // );
         window.bowserjr.result.push("ERROR, " + `No more items to validate ` + JSON.stringify(obj));
         window.bowserjr.resultWithoutObject.push("ERROR, " + `No more items to validate `);
 

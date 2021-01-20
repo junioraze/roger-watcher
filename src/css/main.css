@@ -45,8 +45,7 @@ nav a.sidenav-trigger i {
     line-height: 40px;
 }
 
-#add-filter,
-#remove-filter {
+#add-filter {
     width: 15px;
 }
 
@@ -169,10 +168,6 @@ i.hit-type {
     margin: auto 5px;
 }
 
-i.pageview {
-    transform: rotate(-90deg);
-}
-
 table.tracktable tr:nth-child(odd) {
     background-color: #f7f7f7a2;
     border: none;
@@ -184,7 +179,7 @@ table.tracktable tr:nth-child(even) {
 }
 
 table tr#warning {
-    background-color: #f1f7c4;
+    background-color: #ffc575;
 }
 
 .collapsible-body td {
@@ -259,28 +254,13 @@ i.delete:hover {
     font-weight: bolder;
 }
 
-
-/* #successful-title {
-	border-left: #0d5003 solid 2px;
-	height: 4px;
-}
-
-#warning-title {
-	border-left: #e9941d solid 2px;
-	height: 4px;
-}
-
-#error-title {
-	border-left: #940808 solid 3px;
-	height: 4px;
-} */
-
 #count-table td {
     width: 10px !important;
     margin: 0;
 }
 
-.warning-icon-status {
+
+/* .warning-icon-status {
     color: #e9941d;
 }
 
@@ -290,7 +270,7 @@ i.delete:hover {
 
 .success-icon-status {
     color: #0d5003;
-}
+} */
 
 .add-filter i.material-icons.center-align:hover:nth-child(n + 2),
 .add-filter i.material-icons.center-align.checked:nth-child(n + 2) {
@@ -375,4 +355,13 @@ nav ul .add-filter i:nth-child(n + 2) a:hover {
 
 .nav-buttons .add-filter i a {
     color: rgb(56, 56, 56);
+}
+
+.queryString td,
+.queryString th {
+    padding: 8px 15px;
+}
+
+#count-table {
+    margin: 15px;
 }

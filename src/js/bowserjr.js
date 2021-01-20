@@ -247,6 +247,7 @@ btnStopBowser.onclick = () => {
         }
 
         function treatment(event, objName, index) {
+            console.log('entrou no treatment')
             let eventKeys = Object.keys(event); // Get the eventKeys in the object.
             let keyCount = 0;
             let valueCount = 0;
@@ -357,27 +358,27 @@ btnStopBowser.onclick = () => {
 
 const buttonExport = document.getElementById("export");
 buttonExport.addEventListener("click", () => {
-  let filename = `results_${new Date().getTime()}.txt`;
-  let fullResult = ""
+    let filename = `results_${new Date().getTime()}.txt`;
+    let fullResult = ""
 
-  window.bowserjr.resultExport.forEach((line) => {
-    fullResult = fullResult + line + "\n"
-  });
+    window.bowserjr.resultExport.forEach((line) => {
+        fullResult = fullResult + line + "\n"
+    });
 
 
-  let a = document.createElement("a");
+    let a = document.createElement("a");
 
-  document.body.appendChild(a);
+    document.body.appendChild(a);
 
-  a.style = "display: none";
+    a.style = "display: none";
 
-  let blob = new Blob([fullResult], { type: "octet/stream" }),
-    url = window.URL.createObjectURL(blob);
+    let blob = new Blob([fullResult], { type: "octet/stream" }),
+        url = window.URL.createObjectURL(blob);
 
-  a.href = url;
-  a.download = filename;
-  a.click();
-  window.URL.revokeObjectURL(url);
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
 
 });
 

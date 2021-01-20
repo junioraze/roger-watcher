@@ -40,8 +40,7 @@ jQuery("#search-icon").on('click', () => {
     searchInput.toggleClass('checked');
 
     var optionFilter = document.querySelector('.add-filter');
-    var filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 19;
-
+    var filterCount = location.pathname.indexOf('bowser') !== -1 ? 9 : 21;
 
 
     if (optionFilter.className.indexOf('active-filter') !== -1 && searchInput[0].className.indexOf('checked') !== -1) {
@@ -63,7 +62,7 @@ jQuery('li.add-filter i')[0].onclick = () => {
     var className;
     var filterCount;
 
-    filterCount = location.pathname.indexOf('bowser') !== -1 ? 7 : 19;
+    filterCount = location.pathname.indexOf('bowser') !== -1 ? 9 : 21;
 
     if (optionFilter.className.indexOf('active-filter') === -1) {
         optionFilter.setAttribute('class', 'add-filter active-filter');
