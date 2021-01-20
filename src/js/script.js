@@ -9,16 +9,18 @@ const RW = (function() {
         social: ['sn', 'sa', 'st'],
         transaction: ['ti'],
         item: ['ti', 'in'],
+        analytics4: ['v', 'en', 'cid', 'tid'],
     };
     const hitTypeImg = {
         event: 'flash_on',
-        pageview: 'note',
-        appview: 'smartphone',
-        transaction: 'shopping_cart',
+        pageview: 'find_in_page',
+        appview: 'apps',
+        transaction: 'monetization_on',
         item: 'shopping_basket',
         social: 'share',
-        exception: 'warning',
-        timing: 'access_time',
+        exception: 'report',
+        timing: 'timelapse',
+        analytics4: 'filter_4',
     };
 
     const modules = {
@@ -37,6 +39,8 @@ const RW = (function() {
                 clone.find('.label').addClass(obj.status);
                 clone.find('.content').attr('title', content).text(content);
                 clone.find('.hit-type').addClass(type);
+                console.log('type : ' +
+                    type)
                 clone.find('.hit-type').text(hitTypeImg[type]);
                 clone.find('table.queryString').html(objectToRows(obj.parameters));
                 panel.append(clone);
@@ -105,6 +109,63 @@ const RW = (function() {
                 }
             },
         },
+        analytics4: {
+            template: jQuery(jQuery('#template-universal').html()),
+            parseByType(type, params) {
+                if (!requiredParameters[type]) return [];
+
+                return requiredParameters[type].filter(
+                    (param) => params[param] === undefined
+                );
+            },
+
+
+            appendNewHit(obj) {
+                const clone = this.template.clone();
+                const content = decode(obj.content);
+                var type = obj.parameters.t;
+                clone.addClass('analytics4').data('qs', obj.queryString);
+                clone.find('.label').addClass(obj.status);
+                clone.find('.content').attr('title', content).text(content);
+                clone.find('.hit-type').addClass(type);
+                console.log('type : ' +
+                    type)
+                clone.find('.hit-type').text(hitTypeImg['analytics4']);
+                clone.find('table.queryString').html(objectToRows(obj.parameters));
+                panel.append(clone);
+                if (RW.autoscroll) clone.get(0).scrollIntoView({ behavior: 'smooth' });
+            },
+            handler(url = '', qs = '') {
+                if (qs === '') {
+                    if (url.includes('?')) {
+                        qs = url.slice(url.indexOf('?') + 1);
+                    } else return;
+                }
+
+                const params = queryToObject(qs);
+
+                let content = params.en ? params.en : params.dl;
+
+                const errors = [
+                        ['analytics4', params]
+                    ]
+                    .map(this.parseByType)
+                    .filter((error) => error.length > 0);
+
+                this.appendNewHit({
+                    parameters: params,
+                    queryString: qs,
+                    status: errors.length ? 'error' : 'ok',
+                    content,
+                });
+
+                publish('newhit', url);
+
+                if (panel.hasClass('filtrado') && !panel.hasClass('analytics4')) {
+                    panel.find();
+                }
+            },
+        }
     };
 
     function clear() {
@@ -167,9 +228,13 @@ const RW = (function() {
 
     function init({ url, method, requestBody, initiator = '' }) {
         if (initiator.includes('chrome-extension://')) return;
-        if (!commonRules.universal_analytics(url)) return;
+        if (!commonRules.universal_analytics(url) && !commonRules.analytics4(url))
+            return;
         if (method === 'GET') {
             modules.universal_analytics.handler(url);
+
+        } else if (method === 'POST') {
+            modules.analytics4.handler(url);
         } else {
             requestBody.raw
                 .map(function(data) {
@@ -208,7 +273,12 @@ const RW = (function() {
 
 chrome.webRequest.onBeforeRequest.addListener(
     RW.init, {
-        urls: ['*://*.google-analytics.com/collect*', '*://*.google-analytics.com/*/collect*'],
+        urls: [
+            '*://*.google-analytics.com/collect*',
+            '*://*.google-analytics.com/*/collect*',
+            '*://*.analytics.google.com/*/collect*',
+            '*://*.analytics.google.com/collect*'
+        ],
     }, ['requestBody'],
 );
 //chrome.devtools.network.onRequestFinished.addListener();
