@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     switch (request.message) {
         case "background_bowser_script":
             chrome.tabs.query({ active: true }, function(tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, {
+                chrome.tabs.sendMessage(request.tabID, {
                     message: "inject_bowser_script",
                     datalayer: request.dataLayerName
                 }, function(response) {

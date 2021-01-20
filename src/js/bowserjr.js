@@ -53,6 +53,7 @@ const btnStopBowser = document.getElementById('stopTest');
 const btnExportLogs = document.getElementById('export');
 const btnLudwig = document.getElementById('ludwigBtn');
 const btnClearReport = document.querySelector('.clear-report');
+const urlToVerify = document.querySelector('#inputUrl');
 
 const headerDOM = document.querySelector('#log-header');
 const pageURL = document.querySelector('.page-info');
@@ -104,21 +105,32 @@ function handleFiles() {
 
 
 btnStartBowser.onclick = () => {
-    // Verify if the dataLayer name and file exist.
+    // Verify if the file exist.
 
     if (window.bowserjr.file) {
         //Chrome runtime methods
+        let tabId;
         chrome.tabs.query({ active: true }, function(tabs) {
-            let tab = tabs[0];
-            chrome.tabs.executeScript(tab.id, {
+            console.log(tabs);
+
+            tabs.forEach( tab => {
+                if (tab.url.includes(urlToVerify.value)){
+                    tabId = tab.id;
+                    console.log(tab);
+                }
+            });
+
+            chrome.tabs.executeScript(tabId, {
                 file: 'js/bowserContentScript.js',
             });
             // console.log('Executed contentScript');
         });
-
-        chrome.runtime.sendMessage({
+        setTimeout(function(){
+            // console.log(tabId);
+            chrome.runtime.sendMessage({
                 message: 'background_bowser_script',
                 dataLayerName: inputDataLayerName.value,
+                tabID: tabId,
             },
             function(response) {
                 if (response.message == 'teste_ok') {
@@ -127,6 +139,8 @@ btnStartBowser.onclick = () => {
                 }
             },
         );
+        },0)
+        
 
         btnStartBowser.disabled = true;
         btnStopBowser.disabled = false;
