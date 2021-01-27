@@ -261,7 +261,7 @@ btnStopBowser.onclick = () => {
         }
 
         function treatment(event, objName, index) {
-            console.log('entrou no treatment')
+            //console.log('entrou no treatment')
             let eventKeys = Object.keys(event); // Get the eventKeys in the object.
             let keyCount = 0;
             let valueCount = 0;

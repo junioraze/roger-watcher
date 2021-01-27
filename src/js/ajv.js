@@ -315,7 +315,7 @@ let validateObject = (schema, obj, filename) => {
             // );
 
             window.bowserjr.result.push("ERROR, " + `Hit not validated or missed during test ` + JSON.stringify(event));
-            window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit not validated or missed during test `);
+            window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit not validated or missed during test, Event: `+ JSON.stringify(event.event));
 
         });
     };
