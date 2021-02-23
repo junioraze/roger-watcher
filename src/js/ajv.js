@@ -38,7 +38,7 @@ let validateObject = (schema, obj, filename) => {
             if (valid) {
                 // saveLog(filename, "OK", "Validated Successfully", JSON.stringify(obj));
 
-                window.bowserjr.result.push("OK, Validated Successfully" + JSON.stringify(obj));
+                window.bowserjr.result.push(`OK;Validated Successfully;${JSON.stringify(obj)}`);
                 window.bowserjr.resultWithoutObject.push("OK, Validated Successfully");
 
                 //items.forEach((item)=>{console.log(item);})
@@ -100,7 +100,7 @@ let validateObject = (schema, obj, filename) => {
                     //     JSON.stringify(dlObj)
                     // );
 
-                    window.bowserjr.result.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} ` + JSON.stringify(dlObj));
+                    window.bowserjr.result.push(`ERROR;Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty};${JSON.stringify(dlObj)}`);
                     window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
 
                     try {
@@ -161,7 +161,7 @@ let validateObject = (schema, obj, filename) => {
                     //     JSON.stringify(dlObj)
                     // );
 
-                    window.bowserjr.result.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} ` + JSON.stringify(dlObj));
+                    window.bowserjr.result.push(`ERROR;Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty};${JSON.stringify(dlObj)}`);
                     window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
 
                     try {
@@ -224,7 +224,7 @@ let validateObject = (schema, obj, filename) => {
                             //     JSON.stringify(obj)
                             // );
 
-                            window.bowserjr.result.push("ERROR, " + `Hit sent without the following property: ${errorMessage.params.missingProperty}, ` + JSON.stringify(obj));
+                            window.bowserjr.result.push(`ERROR;Hit sent without the following property: ${errorMessage.params.missingProperty};${JSON.stringify(obj)}`);
                             window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit sent without the following property: ${errorMessage.params.missingProperty}, `);
 
 
@@ -263,7 +263,7 @@ let validateObject = (schema, obj, filename) => {
                                 //     JSON.stringify(obj)
                                 // );
 
-                                window.bowserjr.result.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}" ` + JSON.stringify(obj));
+                                window.bowserjr.result.push(`WARNING;${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}";${JSON.stringify(obj)}`);
                                 window.bowserjr.resultWithoutObject.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}, but Hit send: "${eachError.data}" `);
                                 break;
 
@@ -275,7 +275,7 @@ let validateObject = (schema, obj, filename) => {
                                 //     JSON.stringify(obj)
                                 // );
 
-                                window.bowserjr.result.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}" ` + JSON.stringify(obj));
+                                window.bowserjr.result.push(`WARNING;${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}";${JSON.stringify(obj)}`);
                                 window.bowserjr.resultWithoutObject.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}: "${eachError.schema.length > 1 ? eachError.schema.join(", ") : eachError.schema[0]}", but Hit send: "${eachError.data}" `);
 
                                 break;
@@ -288,7 +288,7 @@ let validateObject = (schema, obj, filename) => {
                                 //     JSON.stringify(obj)
                                 // );
 
-                                window.bowserjr.result.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}" ` + JSON.stringify(obj));
+                                window.bowserjr.result.push(`WARNING;"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}";${JSON.stringify(obj)}`);
                                 window.bowserjr.resultWithoutObject.push("WARNING, " + `"${eachError.dataPath.replace(/^\./g, "")}" ${eachError.message}" `);
 
                                 break;
@@ -314,7 +314,8 @@ let validateObject = (schema, obj, filename) => {
             //     JSON.stringify(event)
             // );
 
-            window.bowserjr.result.push("ERROR, " + `Hit not validated or missed during test ` + JSON.stringify(event));
+            window.bowserjr.result.push(`ERROR;Hit not validated or missed during test;${JSON.stringify(event)}`);
+            //window.bowserjr.result.push("ERROR, " + `Hit not validated or missed during test ` + JSON.stringify(event));
             window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit not validated or missed during test, Event: `+ JSON.stringify(event.event));
 
         });
@@ -327,7 +328,7 @@ let validateObject = (schema, obj, filename) => {
         //     `No more items to validate`,
         //     JSON.stringify(obj)
         // );
-        window.bowserjr.result.push("ERROR, " + `No more items to validate ` + JSON.stringify(obj));
+        window.bowserjr.result.push(`ERROR;No more items to validate;${JSON.stringify(obj)}`);
         window.bowserjr.resultWithoutObject.push("ERROR, " + `No more items to validate `);
 
     } else if (!checkValidEvent(items, obj) && !isObjEmpty) {
