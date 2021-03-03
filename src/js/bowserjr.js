@@ -313,7 +313,7 @@ btnStopBowser.onclick = () => {
                                 }
                             }
                         }
-                    } else if (typeof event[key] == 'object') {
+                    } else if (event[key] != null && typeof event[key] == 'object') {
                         tableValue.appendChild(document.createTextNode('Object{ }'));
                         tableLine.appendChild(tableValue); // Write the Value in the line.
                         tableQueryString.appendChild(tableLine); // Write the Line in the table.
