@@ -10,7 +10,6 @@ const clear = document.getElementById("end");
 const preview = document.getElementById("preview");
 const divSchema = document.getElementById("schema");
 const selectProperties = document.getElementById("properties");
-const buttonExport = document.getElementById("export-json");
 const buttonUseJson = document.getElementById("use-in-page");
 const uploadButton = document.getElementById("inputFileLabel");
 const modal = document.getElementById("myModal");
@@ -143,6 +142,7 @@ addEvent.addEventListener("click", () => {
         selectProperties.remove(1);
     }
 });
+
 
 buttonExport.addEventListener("click", () => {
     if (!window.bowserjr.jsonSchema) {

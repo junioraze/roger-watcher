@@ -13,7 +13,7 @@ window.bowserjr.count = {
     warning: 0,
 };
 window.bowserjr.validateObject = validateObject;
-// window.bowserjr.validateObject ? console.log('Yay! BowserJR Loaded!') : console.log("BowserJR didn't load :'( ");
+// window.bowserjr.buttonExport ? console.log('Yay! BowserJR Loaded!') : console.log("BowserJR didn't load :'( ");
 
 M.AutoInit();
 
@@ -55,9 +55,7 @@ const btnLudwig = document.getElementById('ludwigBtn');
 const btnClearReport = document.querySelector('.clear-report');
 const urlToVerify = document.querySelector('#inputUrl');
 
-const headerDOM = document.querySelector('#log-header');
-const pageURL = document.querySelector('.page-info');
-const browser = document.querySelector('.browser-info');
+
 const validationDate = document.querySelector('.date-info');
 const successfulData = document.querySelector('#successful-data');
 const warningData = document.querySelector('#warning-data');
@@ -70,9 +68,7 @@ const btnModalClose = document.getElementsByClassName('close')[0];
 // browser.innerHTML = 'Chrome Version ' + navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
 
 // var doc = new jsPDF();
-var accSizeContent = 0;
 var data = new Date();
-var today = data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear();
 
 // When a user uploads a file, the function handleFiles will be called.
 inputJSONFile.addEventListener('change', handleFiles, false);
@@ -113,8 +109,8 @@ btnStartBowser.onclick = () => {
         chrome.tabs.query({ active: true }, function(tabs) {
             console.log(tabs);
 
-            tabs.forEach( tab => {
-                if (tab.url.includes(urlToVerify.value)){
+            tabs.forEach(tab => {
+                if (tab.url.includes(urlToVerify.value)) {
                     tabId = tab.id;
                     console.log(tab);
                 }
@@ -125,22 +121,22 @@ btnStartBowser.onclick = () => {
             });
             // console.log('Executed contentScript');
         });
-        setTimeout(function(){
+        setTimeout(function() {
             // console.log(tabId);
             chrome.runtime.sendMessage({
-                message: 'background_bowser_script',
-                dataLayerName: inputDataLayerName.value,
-                tabID: tabId,
-            },
-            function(response) {
-                if (response.message == 'teste_ok') {
-                    var data = new Date();
-                    validationDate.innerHTML = data.getDate() + '/' + (data.getMonth() + 1) + '/' + data.getFullYear();
-                }
-            },
-        );
-        },0)
-        
+                    message: 'background_bowser_script',
+                    dataLayerName: inputDataLayerName.value,
+                    tabID: tabId,
+                },
+                function(response) {
+                    if (response.message == 'teste_ok') {
+                        var data = new Date();
+                        validationDate.innerHTML = data.getDate() + '/' + (data.getMonth() + 1) + '/' + data.getFullYear();
+                    }
+                },
+            );
+        }, 0)
+
 
         btnStartBowser.disabled = true;
         btnStopBowser.disabled = false;
@@ -261,7 +257,6 @@ btnStopBowser.onclick = () => {
         }
 
         function treatment(event, objName, index) {
-            console.log('entrou no treatment')
             let eventKeys = Object.keys(event); // Get the eventKeys in the object.
             let keyCount = 0;
             let valueCount = 0;
@@ -370,7 +365,7 @@ btnStopBowser.onclick = () => {
     document.querySelector('#export').setAttribute('class', '');
 };
 
-const buttonExport = document.getElementById("export");
+const buttonExport = document.getElementById("export-json");
 buttonExport.addEventListener("click", () => {
     let filename = `results_${new Date().getTime()}.txt`;
     let fullResult = ""

@@ -40,7 +40,7 @@ const RW = (function() {
                 clone.find('.content').attr('title', content).text(content);
                 clone.find('.hit-type').addClass(type);
                 console.log('type : ' +
-                    type)
+                    type);
                 clone.find('.hit-type').text(hitTypeImg[type]);
                 clone.find('table.queryString').html(objectToRows(obj.parameters));
                 panel.append(clone);
@@ -129,7 +129,7 @@ const RW = (function() {
                 clone.find('.content').attr('title', content).text(content);
                 clone.find('.hit-type').addClass(type);
                 console.log('type : ' +
-                    type)
+                    type);
                 clone.find('.hit-type').text(hitTypeImg['analytics4']);
                 clone.find('table.queryString').html(objectToRows(obj.parameters));
                 panel.append(clone);
