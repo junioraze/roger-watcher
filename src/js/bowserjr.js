@@ -257,6 +257,7 @@ btnStopBowser.onclick = () => {
         }
 
         function treatment(event, objName, index) {
+            //console.log('entrou no treatment')
             let eventKeys = Object.keys(event); // Get the eventKeys in the object.
             let keyCount = 0;
             let valueCount = 0;
@@ -308,7 +309,7 @@ btnStopBowser.onclick = () => {
                                 }
                             }
                         }
-                    } else if (typeof event[key] == 'object') {
+                    } else if (event[key] != null && typeof event[key] == 'object') {
                         tableValue.appendChild(document.createTextNode('Object{ }'));
                         tableLine.appendChild(tableValue); // Write the Value in the line.
                         tableQueryString.appendChild(tableLine); // Write the Line in the table.
@@ -366,14 +367,20 @@ btnStopBowser.onclick = () => {
 };
 
 const buttonExport = document.getElementById("export-json");
+let fullResult = [];
+
+// const buttonExport = document.getElementById("export");
 buttonExport.addEventListener("click", () => {
-    let filename = `results_${new Date().getTime()}.txt`;
-    let fullResult = ""
+    let filename = `results_${new Date().getTime()}.xlsx`;
+
+    fullResult.push([`Contador: ${JSON.stringify(window.bowserjr.count).split(",").join(" ")}\n\n`]);
 
     window.bowserjr.resultExport.forEach((line) => {
-        fullResult = fullResult + line + "\n"
+        let lineExport = line.split(";");
+        let lineObject = lineExport[2].split(",").join(" ");
+        fullResult.push(lineExport[0], lineExport[1], lineObject, "\n\n");
+        console.log("fullResult: ", fullResult);
     });
-
 
     let a = document.createElement("a");
 
@@ -381,7 +388,7 @@ buttonExport.addEventListener("click", () => {
 
     a.style = "display: none";
 
-    let blob = new Blob([fullResult], { type: "octet/stream" }),
+    let blob = new Blob([fullResult], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;" }),
         url = window.URL.createObjectURL(blob);
 
     a.href = url;
