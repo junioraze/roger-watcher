@@ -12,6 +12,7 @@ let ajv = new Ajv({
 let validateObject = (schema, obj, filename) => {
     //let logsArray = [];
     //let items = schema.array.items;
+    let objTreated = false;
     let items = window.bowserjr.file.array.items;
 
     let isSchemaEmpty = items.length === 0;
@@ -104,8 +105,12 @@ let validateObject = (schema, obj, filename) => {
                     window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
 
                     try {
-                        if (errorMessage.dataPath.indexOf(Object.keys(schemaArray[schemaIndex].properties)[1]) > -1) {
-                            schemaArray.splice(schemaIndex, 1);
+                        let schemaItemKeys = Object.keys(schemaArray[schemaIndex].properties);
+                        if (errorMessage.dataPath.indexOf(schemaItemKeys[1]) > -1) {
+                            if (errorMessage.dataPath.indexOf("[0]") > -1) {
+                                schemaArray.splice(schemaIndex, 1);
+                                objTreated = true
+                            }
                         };
                     } catch {
                         console.log("Objeto " + errorMessage.dataPath + " já teve seu erro tratado!!")
@@ -165,9 +170,10 @@ let validateObject = (schema, obj, filename) => {
                     window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit "${errorMessage.dataPath}" sent without the following property: ${errorMessage.params.missingProperty} `);
 
                     try {
-                        //console.log(schemaArray, schemaIndex, schemaArray[schemaIndex], errorMessage)
-                        if (errorMessage.dataPath.indexOf(Object.keys(schemaArray[schemaIndex].properties)[1]) > -1) {
+                        let schemaItemKeys = Object.keys(schemaArray[schemaIndex].properties);
+                        if (errorMessage.dataPath.indexOf(schemaItemKeys[1]) > -1) {
                             schemaArray.splice(schemaIndex, 1);
+                            objTreated = true
                         }
                     } catch {
                         console.log("Objeto " + errorMessage.dataPath + " já teve seu erro tratado!!")
@@ -206,8 +212,8 @@ let validateObject = (schema, obj, filename) => {
                 errors
                     .filter(
                         (error) =>
-                        error.schema.constructor === Object &&
-                        error.keyword === "required"
+                            error.schema.constructor === Object &&
+                            error.keyword === "required"
                     )
                     .map((eachError) => {
                         let errorMessage = JSON.parse(JSON.stringify(eachError));
@@ -244,14 +250,15 @@ let validateObject = (schema, obj, filename) => {
     };
 
     let checkErrorsPerSchema = (items, obj) => {
+        let itemTreated = false;
         items.forEach((item, index) => {
             let valid = ajv.validate(item, obj);
             let errors = ajv.errors;
+            if (itemTreated) return;
             if (!valid && item.required[1] == Object.keys(obj)[1]) {
-                errors
-                    .filter((error) => {
-                        if (error.keyword == "enum" || error.keyword == "pattern" || error.keyword == "type") return error;
-                    })
+                errors.filter((error) => {
+                    if (error.keyword == "enum" || error.keyword == "pattern" || error.keyword == "type") return error;
+                })
                     .map((eachError) => {
                         switch (eachError.keyword) {
 
@@ -299,7 +306,8 @@ let validateObject = (schema, obj, filename) => {
 
                         }
                     });
-                items.splice(index, 1)
+                items.splice(index, 1);
+                itemTreated = true;
             }
         });
     };
@@ -316,7 +324,7 @@ let validateObject = (schema, obj, filename) => {
 
             window.bowserjr.result.push(`ERROR;Hit not validated or missed during test;${JSON.stringify(event)}`);
             //window.bowserjr.result.push("ERROR, " + `Hit not validated or missed during test ` + JSON.stringify(event));
-            window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit not validated or missed during test, Event: `+ JSON.stringify(event.event));
+            window.bowserjr.resultWithoutObject.push("ERROR, " + `Hit not validated or missed during test, Event: ` + JSON.stringify(event.event));
 
         });
     };
@@ -333,7 +341,9 @@ let validateObject = (schema, obj, filename) => {
 
     } else if (!checkValidEvent(items, obj) && !isObjEmpty) {
         checkMissingProperty(items, obj);
-        checkErrorsPerSchema(items, obj);
+        if (!objTreated) {
+            checkErrorsPerSchema(items, obj);
+        }
     } else if (isObjEmpty) {
         checkMissingEvents(items, obj);
     }
