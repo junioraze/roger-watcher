@@ -2,12 +2,13 @@
 module.exports = (grunt) => {
     // Project configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        pkg: grunt.file.readJSON("package.json"),
+        banner: "/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - " +
+            '<%= grunt.template.today("yyyy-mm-dd") %> */\n',
         replace: {
             compile: {
-                src: 'src/*.html',
-                dest: 'dist/',
+                src: "src/*.html",
+                dest: "dist/",
                 replacements: [{
                         from: /<!-- @dev-css [\s\S]*? dev-css@ -->/gim,
                         to: '<link rel="stylesheet" type="text/css" href="css/all.css"/>',
@@ -17,14 +18,14 @@ module.exports = (grunt) => {
                         to: `<script type="module" src="js/all.js"></script>
                         <script type="module" src="js/allRoger.js"></script>
                         <script type="module" src="js/ajv.min.js"></script>
-                        <script type="module" src="js/materialize.min.js"></script>`,
+                        `,
                     },
                     {
                         from: /<!-- @dev-jsbowser [\s\S]*? dev-jsbowser@ -->/gim,
                         to: `<script type="module" src="js/all.js"></script>
-                            <script type="module" src="js/allBowserJr.js"></script>
                             <script type="module" src="js/ajv.min.js"></script>
-                            <script type="module" src="js/materialize.min.js"></script>`,
+                            <script type="module" src="js/allBowserJr.js"></script>
+                            `,
                     },
                 ],
             },
@@ -32,72 +33,82 @@ module.exports = (grunt) => {
         cssmin: {
             combine: {
                 files: {
-                    'dist/css/all.css': ['src/css/normalize.css', 'src/css/style.css', 'src/css/materialize.min.css', 'src/css/main.css'],
+                    "dist/css/all.css": [
+                        "src/css/normalize.css",
+                        "src/css/style.css",
+                        "src/css/materialize.min.css",
+                        "src/css/main.css",
+                    ],
                 },
             },
         },
         concat: {
             options: {
-                banner: '<%= banner %>',
+                banner: "<%= banner %>",
                 stripBanners: true,
             },
             dist: {
                 files: {
-                    'dist/js/all.js': [
+                    "dist/js/all.js": [
                         // 'src/js/materialize.min.js',
-                        'src/js/jquery.js',
-                        'src/js/eventos.js',
-                        'src/js/rules.js',
+                        "src/js/jquery.js",
+                        "src/js/eventos.js",
+                        "src/js/rules.js",
                     ],
-                    'dist/js/allBowserJr.js': [
-                        'src/js/ajv.min.js',
-                        'src/js/ludwig.js',
-                        'src/js/bowserjr.js',
+                    "dist/js/allBowserJr.js": [
+                        "src/js/ajv.min.js",
+                        "src/js/bowserjr.js",
+                        // "src/js/ludwig.js",
                     ],
-                    'dist/js/allRoger.js': [
-                        'src/js/metadata.js',
-                        'src/js/script.js',
-                    ],
-                    'dist/js/devtools.js': 'src/js/devtools.js',
-                    'dist/js/schema_parser.js': 'src/js/schema_parser.js',
-                    'dist/js/background.js': 'src/js/background.js',
-                    'dist/js/bowserContentScript.js': 'src/js/bowserContentScript.js',
+                    "dist/js/allRoger.js": ["src/js/metadata.js", "src/js/script.js"],
+                    "dist/js/devtools.js": "src/js/devtools.js",
+                    "dist/js/schema_parser.js": "src/js/schema_parser.js",
+                    "dist/js/background.js": "src/js/background.js",
+                    "dist/js/bowserContentScript.js": "src/js/bowserContentScript.js",
+                    "dist/js/materialize.min.js": "src/js/materialize.min.js",
                 },
             },
         },
         jshint: {
-            options: grunt.file.readJSON('jshint.json'),
+            options: grunt.file.readJSON("jshint.json"),
             gruntfile: {
-                src: 'Gruntfile.js',
+                src: "Gruntfile.js",
             },
             js: {
-                src: ['src/js/script.js', 'src/js/eventos.js', 'src/js/tagueamento.js'],
+                src: ["src/js/script.js", "src/js/eventos.js", "src/js/tagueamento.js"],
             },
         },
         copy: {
             compile: {
                 files: [{
-                    cwd: 'src/',
+                    cwd: "src/",
                     expand: true,
-                    src: ['manifest.json', 'icons/*', 'img/*', 'devtools.html', 'js/ajv.js', 'js/ajv.min.js', 'js/materialize.min.js'],
-                    dest: 'dist/',
+                    src: [
+                        "manifest.json",
+                        "icons/*",
+                        "img/*",
+                        "devtools.html",
+                        "js/ajv.js",
+                        "js/ajv.min.js",
+                    ],
+                    dest: "dist/",
                 }, ],
             },
         },
-        clean: ['dist'],
+        clean: ["dist"],
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-contrib-concat");
+    grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks("grunt-text-replace");
 
     // Default task.
-    grunt.registerTask('html', ['replace']);
-    grunt.registerTask('css', ['cssmin']);
-    grunt.registerTask('js', ['concat', 'jshint']);
-    grunt.registerTask('default', ['clean', 'html', 'css', 'js', 'copy']);
+    grunt.registerTask("html", ["replace"]);
+    grunt.registerTask("css", ["cssmin"]);
+    grunt.registerTask("js", ["concat", "jshint"]);
+    grunt.registerTask("default", ["clean", "html", "css", "js", "copy"]);
 };
