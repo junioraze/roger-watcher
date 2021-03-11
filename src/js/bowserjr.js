@@ -135,7 +135,7 @@ btnStartBowser.onclick = () => {
                     }
                 },
             );
-        }, 0)
+        }, 1000)
 
 
         btnStartBowser.disabled = true;
@@ -366,11 +366,9 @@ btnStopBowser.onclick = () => {
     document.querySelector('#export').setAttribute('class', '');
 };
 
-const buttonExport = document.getElementById("export-json");
 let fullResult = [];
 
-// const buttonExport = document.getElementById("export");
-buttonExport.addEventListener("click", () => {
+btnExportLogs.addEventListener("click", () => {
     let filename = `results_${new Date().getTime()}.xlsx`;
 
     fullResult.push([`Contador: ${JSON.stringify(window.bowserjr.count).split(",").join(" ")}\n\n`]);
@@ -378,7 +376,7 @@ buttonExport.addEventListener("click", () => {
     window.bowserjr.resultExport.forEach((line) => {
         let lineExport = line.split(";");
         let lineObject = lineExport[2].split(",").join(" ");
-        fullResult.push(lineExport[0], lineExport[1], lineObject, "\n\n");
+        fullResult.push(lineExport[0], lineExport[1], lineObject, "\n");
         console.log("fullResult: ", fullResult);
     });
 
