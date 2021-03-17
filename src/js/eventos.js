@@ -14,9 +14,10 @@ const RW = {
     },
 };
 
-jQuery('.add-filter .material-icons.center-align').on('click', 'a', function() {
+// change length > 1 to > 0
+jQuery('.add-filter .material-icons.center-align.not-hide').on('click', 'a', function() {
     jQuery(this).closest('i').toggleClass('checked');
-    RW.panel.toggleClass(this.className).toggleClass('filtrado', jQuery('.checked').length > 1);
+    RW.panel.toggleClass(this.className).toggleClass('filtrado', jQuery('.checked').length > 0);
 
 });
 

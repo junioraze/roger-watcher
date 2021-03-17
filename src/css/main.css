@@ -5,6 +5,17 @@ body {
 
 /* @navbar */
 
+
+nav ul li { 
+    display: inline-block;
+}
+
+nav ul { 
+    white-space:nowrap;
+    overflow-x: auto;
+    width: 600px;
+}
+
 nav {
     background-color: #f8f8f8;
     box-shadow: none;
@@ -319,6 +330,7 @@ nav ul .add-filter i:nth-child(n + 2) a:hover {
 .appview .track.appview:not(.hidden),
 .exception .track.exception:not(.hidden),
 .erro .track.erro:not(.hidden),
+.analytics4 .track.analytics4:not(.hidden),
 .warn .track.warn,
 .error .track.error,
 .ok .track.ok {
